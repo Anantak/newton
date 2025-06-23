@@ -1,0 +1,13 @@
+// config.json general options
+// for urdf or mujoco specific options, see documentation
+{
+  // Onshape assembly URL
+  "url": "https://cad.onshape.com/documents/2a151467b7eca597e7135f4d/w/bcd5b32761e28fe966290090/e/164b603d45e86a046f0d2e75",
+  // Output format: urdf or mujoco (required)
+  "output_format": "mujoco",
+  // Output filename (default: "robot")
+  // Extension (.urdf, .xml) will be added automatically
+  "output_filename": "robot",
+  // Assets directory (default: "assets")
+  "assets_dir": "assets"
+}

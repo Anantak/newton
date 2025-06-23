@@ -32,3 +32,10 @@ rspec.xml
 docs/_build/
 
 .idea/
+
+# MT340 assets
+newton/examples/ANA/autotug/assets
+newton/examples/ANA/MT340/assets
+newton/examples/ANA/onshape-to-robot-examples
+newton/examples/ANA/onshape
+_build

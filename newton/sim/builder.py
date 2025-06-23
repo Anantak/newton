@@ -82,7 +82,7 @@ class ModelBuilder:
 
     Use the ModelBuilder to construct a simulation scene. The ModelBuilder
     and builds the scene representation using standard Python data structures (lists),
-    this means it is not differentiable. Once :func:`finalize()`
+    this means it is not differentiable. Once :meth:`finalize`
     has been called the ModelBuilder transfers all data to Warp tensors and returns
     an object that may be used for simulation.
 
@@ -314,10 +314,6 @@ class ModelBuilder:
 
         # filtering to ignore certain collision pairs
         self.shape_collision_filter_pairs = set()
-
-        # geometry
-        self.geo_meshes = []
-        self.geo_sdfs = []
 
         # springs
         self.spring_indices = []
@@ -1501,6 +1497,9 @@ class ModelBuilder:
                         body_data[last_dynamic_body]["shapes"].append(shape)
                     else:
                         self.shape_body[shape] = -1
+                        if -1 not in self.body_shapes:
+                            self.body_shapes[-1] = []
+                        self.body_shapes[-1].append(shape)
 
                 if last_dynamic_body > -1:
                     source_m = body_data[last_dynamic_body]["mass"]
@@ -3159,6 +3158,7 @@ class ModelBuilder:
 
             A model object.
         """
+        from .collide import count_rigid_contact_points
 
         # ensure the env count is set correctly
         self.num_envs = max(1, self.num_envs)
@@ -3231,10 +3231,6 @@ class ModelBuilder:
             )
 
             m.shape_geo_src = self.shape_geo_src  # used for rendering
-
-            # store refs to geometry
-            m.geo_meshes = self.geo_meshes
-            m.geo_sdfs = self.geo_sdfs
 
             m.shape_materials.ke = wp.array(self.shape_material_ke, dtype=wp.float32, requires_grad=requires_grad)
             m.shape_materials.kd = wp.array(self.shape_material_kd, dtype=wp.float32, requires_grad=requires_grad)
@@ -3375,6 +3371,7 @@ class ModelBuilder:
             m.articulation_count = len(self.articulation_start)
 
             self.find_shape_contact_pairs(m)
+            m.rigid_contact_max = count_rigid_contact_points(m)
 
             m.rigid_contact_torsional_friction = self.rigid_contact_torsional_friction
             m.rigid_contact_rolling_friction = self.rigid_contact_rolling_friction

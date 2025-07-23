@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(MUJOCO_ROOT_DIR "/home/ubuntu/Libraries/NEWTON/newton/.venv/lib/python3.11/site-packages/mujoco")  # Update this path
 
 # Direct paths to MuJoCo (update these)
-set(MUJOCO_LIBRARY_PATH "${MUJOCO_ROOT_DIR}/libmujoco.so.3.3.3")
+set(MUJOCO_LIBRARY_PATH "${MUJOCO_ROOT_DIR}/libmujoco.so.3.3.4")
 set(MUJOCO_INCLUDE_DIR "${MUJOCO_ROOT_DIR}/include")
 
 find_package(Threads REQUIRED)

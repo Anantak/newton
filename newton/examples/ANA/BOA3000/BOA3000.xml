@@ -1,0 +1,129 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- OnShape https://cad.onshape.com/documents/862948a6ea6d38343e1d3272/w/98cee18311a3b8d7c10abc42/e/9332fc5299824befd8ebf702 -->
+<mujoco model="autoforklift">
+    <compiler angle="radian" meshdir="assets" autolimits="true"/>
+
+    <option noslip_iterations="10" noslip_tolerance="1e-6"/>
+
+    <option>
+        <flag gravity="enable"/>
+    </option>
+
+    <!-- Enhanced no-slip solver -->
+    <option timestep="0.005"
+            iterations="20"
+            tolerance="1e-12"
+            solver="Newton"
+            jacobian="dense"
+            noslip_iterations="10"
+            noslip_tolerance="1e-6"/>
+
+    <default>
+        <default class="autoforklift">
+            <joint frictionloss="0.1" armature="0.005"/>
+            <position kp="50" dampratio="1"/>
+
+            <default class="body">
+                <geom type="mesh" contype="1" conaffinity="1" group="1"/>
+            </default>
+
+            <default class="shaft">
+                <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+            </default>
+
+            <!-- Visual geom only -->
+            <default class="visual-only">
+                <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+            </default>
+
+            <default class="tires-visual">
+                <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+            </default>
+            <default class="tires-collision">
+                <geom type="mesh" contype="2" conaffinity="2" group="2"/>
+            </default>
+
+        </default>
+    </default>
+
+
+    <asset>
+        <!-- Vehicle Materials  -->
+        <mesh name="body_mesh" file="BOA3000-BODY.stl"/>
+        <mesh name="mast_mesh" file="BOA3000-MAST.stl"/>
+        <mesh name="roller" file="BOA3000-ROLLER.stl"/>
+
+        <material name="vehicle_material" rgba="0.4 0.3 0.0 1"/>
+        <material name="mast_material" rgba="0.1 0.1 0.1 1"/>
+        <material name="roller_material" rgba="0.5 0.5 0.0 1"/>
+        <material name="shaft_material" rgba="0.8 0.8 0.8 1"/>
+        <material name="wheel_mat" rgba="0.2 0.2 0.2 1"/>
+        <material name="wheel_collision_mat" rgba="0.8 0.8 0.0 1"/>
+
+        <!-- Ground Materials  -->
+        <texture type="2d" name="groundplane" 
+            builtin="checker" mark="edge" rgb1="0.2 0.2 0.2" rgb2="0.4 0.4 0.4" 
+            markrgb="0.8 0.8 0.8" width="300" height="300" />
+        <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5"
+            reflectance="0.001"/>
+    </asset>
+
+
+    <worldbody>
+
+        <!-- Ground -->
+        <geom name="ground" size="0 0 0.1" pos="0 0 -0.3" type="plane" material="groundplane" contype="1" conaffinity="3" group="0"/>
+
+        <!-- BOA3000 Body -->
+        <body name="boa3000_body" pos="0 0 0" quat="1 0 0 0" childclass="autoforklift">
+            <freejoint name="vehicle_freejoint"/>
+            <inertial pos="0 0 0" mass="1500" diaginertia="1000 1500 800"/>
+            <geom class="body" type="mesh" mesh="body_mesh" pos="-1.009471 0 -0.077436" quat="0.5 0.5 -0.5 -0.5" material="vehicle_material"/>
+
+            <site name="rear_tire_center" pos="0 0 0" size="0.02" rgba="1 1 0 1"/>
+
+            <!-- BOA3000 MAST -->
+            <body name="boa3000_mast" pos="-1.009471 0 -0.077436" quat="0.5 0.5 -0.5 -0.5">
+                <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/>
+                <geom class="shaft" type="mesh" mesh="mast_mesh" material="mast_material"/>
+            </body>
+
+            <!-- BOA3000 LEFT ROLLER -->
+            <body name="boa3000_left_roller" pos="0 -0.439000 0" quat="0.7071067 0.7071067 0 0">
+                <joint axis="0 0 1" name="Revolute-Left-Roller" type="hinge" 
+                    ref="0.0"
+                    damping="100" frictionloss="0.5"/>
+                <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/>
+                <geom class="tires-visual" type="mesh" mesh="roller" material="roller_material"/>
+                <geom class="tires-collision" type="cylinder" pos="0 0 0" size="0.0749 0.0450" material="wheel_collision_mat" name="wheel_left_collision"/>
+            </body>
+
+            <!-- BOA3000 RIGHT ROLLER -->
+            <body name="boa3000_right_roller" pos="0  0.439000 0" quat="0.7071067 0.7071067 0 0">
+                <joint axis="0 0 1" name="Revolute-Right-Roller" type="hinge" 
+                    ref="0.0"
+                    damping="100" frictionloss="0.5"/>
+                <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/>
+                <geom class="tires-visual" type="mesh" mesh="roller" material="roller_material"/>
+                <geom class="tires-collision" type="cylinder" pos="0 0 0" size="0.0749 0.0450" material="wheel_collision_mat" name="wheel_right_collision"/>
+            </body>
+
+        </body>
+
+    </worldbody>
+
+    <tendon>
+    </tendon>
+
+    <contact>
+    </contact>
+
+
+    <equality>
+    </equality>
+    
+    <actuator>
+    </actuator>
+
+</mujoco>

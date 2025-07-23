@@ -1,0 +1,42 @@
+<mujoco model="scene">
+
+    <include file="BOA3000.xml" />
+
+    <visual>
+        <headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0 0 0" />
+        <rgba haze="0.15 0.25 0.35 1" />
+        <global offwidth="2560" offheight="1440" elevation="-5" azimuth="-120"/>
+    </visual>
+
+    <asset>
+        <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512"
+            height="3072" />
+    </asset>
+
+    <asset>
+        <!-- Base concrete texture with noise -->
+        <texture name="concrete_base" 
+                type="2d" 
+                builtin="flat" 
+                height="1024" 
+                width="1024" 
+                rgb1="0.62 0.62 0.67" 
+                rgb2="0.78 0.78 0.83" 
+                mark="random" 
+                markrgb="0.25 0.25 0.3"/>
+        
+        <!-- Main cement floor material -->
+        <material name="cement_floor" 
+                texture="concrete_base" 
+                specular="0.01" 
+                shininess="0.00" 
+                reflectance="0.00"/>
+    </asset>
+
+    <worldbody>
+
+        <light pos="0 0 3.5" dir="0 0 -1" directional="true" />
+
+    </worldbody>
+
+</mujoco>

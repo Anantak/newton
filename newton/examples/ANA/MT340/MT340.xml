@@ -1,6 +1,5 @@
 <?xml version="1.0" ?>
-<!-- Generated using onshape-to-robot -->
-<!-- OnShape https://cad.onshape.com/documents/862948a6ea6d38343e1d3272/w/98cee18311a3b8d7c10abc42/e/9332fc5299824befd8ebf702 -->
+
 <mujoco model="autotug">
     <compiler angle="radian" meshdir="assets" autolimits="true"/>
 

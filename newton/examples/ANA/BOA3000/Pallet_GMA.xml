@@ -1,0 +1,39 @@
+<mujoco model="gma_pallet">
+
+  <asset>
+    <!-- Corrected wood texture to use a 2D checker pattern with wood colors -->
+    <texture name="texwood" type="2d" builtin="checker" width="128" height="128" rgb1="0.6 0.4 0.2" rgb2="0.3 0.2 0.1" />
+    <material name="MatWood" texture="texwood" texrepeat="5 5" specular="0.1" shininess="0.1" />
+  </asset>
+
+  <worldbody>
+
+    <body name="gma_pallet" pos="1 0 0.056" quat="0.7071067 0 0 0.7071067">
+      <freejoint name="gma_pallet_freejoint"/>
+      <!-- Top Deck Boards -->
+      <!-- Lead boards (wider) -->
+      <geom name="top_deck_lead_front" type="box" size="0.6096 0.07 0.01" pos="0 0.4445 0.065" material="MatWood" />
+      <geom name="top_deck_lead_back"  type="box" size="0.6096 0.07 0.01" pos="0 -0.4445 0.065" material="MatWood" />
+      <!-- Inner boards -->
+      <geom name="top_deck_inner_1" type="box" size="0.6096 0.044 0.01" pos="0 0.3048 0.065" material="MatWood" />
+      <geom name="top_deck_inner_2" type="box" size="0.6096 0.044 0.01" pos="0 0.1524 0.065" material="MatWood" />
+      <geom name="top_deck_inner_3" type="box" size="0.6096 0.044 0.01" pos="0 0 0.065" material="MatWood" />
+      <geom name="top_deck_inner_4" type="box" size="0.6096 0.044 0.01" pos="0 -0.1524 0.065" material="MatWood" />
+      <geom name="top_deck_inner_5" type="box" size="0.6096 0.044 0.01" pos="0 -0.3048 0.065" material="MatWood" />
+
+      <!-- Stringer Boards (the three main supports) -->
+      <geom name="stringer_left"   type="box" size="0.02 0.508 0.045" pos="0.5896 0 0.01" material="MatWood" />
+      <geom name="stringer_middle" type="box" size="0.02 0.508 0.045" pos="0 0 0.01" material="MatWood" />
+      <geom name="stringer_right"  type="box" size="0.02 0.508 0.045" pos="-0.5896 0 0.01" material="MatWood" />
+
+      <!-- Bottom Deck Boards -->
+      <!-- Lead boards (wider) -->
+      <geom name="bottom_deck_lead_front" type="box" size="0.6096 0.07 0.01" pos="0 0.4445 -0.045" material="MatWood" />
+      <geom name="bottom_deck_lead_back"  type="box" size="0.6096 0.07 0.01" pos="0 -0.4445 -0.045" material="MatWood" />
+      <!-- Inner boards -->
+      <geom name="bottom_deck_inner_1" type="box" size="0.6096 0.044 0.01" pos="0 0.2286 -0.045" material="MatWood" />
+      <geom name="bottom_deck_inner_2" type="box" size="0.6096 0.044 0.01" pos="0 0 -0.045" material="MatWood" />
+      <geom name="bottom_deck_inner_3" type="box" size="0.6096 0.044 0.01" pos="0 -0.2286 -0.045" material="MatWood" />
+    </body>
+  </worldbody>
+</mujoco>

@@ -1,0 +1,238 @@
+<?xml version="1.0" ?>
+
+<mujoco model="longbow">
+    <compiler angle="radian" meshdir="assets" autolimits="true"/>
+
+    <option noslip_iterations="10" noslip_tolerance="1e-6"/>
+
+    <option>
+        <flag gravity="enable"/>
+    </option>
+
+    <!-- Enhanced no-slip solver -->
+    <option timestep="0.005"
+            iterations="20"
+            tolerance="1e-12"
+            solver="Newton"
+            jacobian="dense"
+            noslip_iterations="10"
+            noslip_tolerance="1e-6"/>
+
+    <default>
+        <default class="longbow">
+            <joint frictionloss="0.1" armature="0.005"/>
+            <position kp="50" dampratio="1"/>
+
+            <default class="body">
+                <geom type="mesh" contype="1" conaffinity="0" group="1"/>
+            </default>
+
+            <default class="hits-ground-not-body">
+                <geom type="mesh" contype="1" conaffinity="0" group="1"/>
+            </default>
+
+            <default class="shaft">
+                <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+            </default>
+
+            <!-- Visual geom only -->
+            <default class="visual-only">
+                <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+            </default>
+
+            <default class="tires-visual">
+                <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+            </default>
+            <default class="tires-collision">
+                <geom type="mesh" contype="2" conaffinity="2" group="2"/>
+            </default>
+
+        </default>
+    </default>
+
+
+    <asset>
+        <!-- Vehicle Materials  -->
+        <mesh name="chassis_mesh" file="CHASSIS.stl"/>
+        <mesh name="right_shoulder_mesh" file="RIGHT-SHOULDER.stl"/>
+        <mesh name="left_shoulder_mesh" file="LEFT-SHOULDER.stl"/>
+        <mesh name="forearm_slider_frame" file="FOREARM-SLIDER.stl"/>
+        <!-- <mesh name="roller_mesh" file="BOA3000-ROLLER.stl"/>
+        <mesh name="shaft_mesh" file="BOA3000-STEERING-SHAFT.stl"/>
+        <mesh name="wheel_mesh" file="BOA3000-TRACTION-WHEEL.stl"/>
+        <mesh name="tiller_base_mesh" file="BOA3000-TILLER-BASE.stl"/>
+        <mesh name="tiller_handle_mesh" file="BOA3000-TILLER-HANDLE.stl"/>
+        <mesh name="mast_mesh" file="BOA3000-MAST.stl"/>
+        <mesh name="lift_mesh" file="BOA3000-LIFT.stl"/>
+        <mesh name="fork_lift_mesh" file="BOA3000-FORK-LIFT.stl"/>
+        <mesh name="forks_tilter_mesh" file="BOA3000-FORKS-TILTER.stl"/>
+        <mesh name="left_fork_tine_mesh" file="BOA3000-LEFT-FORK-TINE.stl"/>
+        <mesh name="right_fork_tine_mesh" file="BOA3000-RIGHT-FORK-TINE.stl"/>
+ -->
+        <material name="vehicle_material" rgba="0.4 0.3 0.0 1"/>
+        <material name="mast_material" rgba="0.1 0.1 0.1 1"/>
+        <material name="lift_material" rgba="0.15 0.15 0.15 1"/>
+        <material name="fork_lift_material" rgba="0.2 0.2 0.2 1"/>
+        <material name="forks_tilter_material" rgba="0.3 0.3 0.3 1"/>
+        <material name="fork_tines_material" rgba="0.1 0.1 0.1 1"/>
+        <material name="tiller_material" rgba="0.1 0.1 0.1 1"/>
+        <material name="roller_material" rgba="0.6 0.6 0.4 1"/>
+        <material name="shaft_material" rgba="0.2 0.2 0.2 1"/>
+        <material name="wheel_material" rgba="0.2 0.2 0.2 1"/>
+        <material name="wheel_collision_material" rgba="0.8 0.0 0.0 1"/>
+
+        <!-- Ground Materials  -->
+        <texture type="2d" name="groundplane" 
+            builtin="checker" mark="edge" rgb1="0.2 0.2 0.2" rgb2="0.4 0.4 0.4" 
+            markrgb="0.8 0.8 0.8" width="300" height="300" />
+        <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5"
+            reflectance="0.001"/>
+    </asset>
+
+    <worldbody>
+
+        <!-- Ground -->
+        <geom name="ground" size="0 0 0.1" pos="0 0 0" type="plane" 
+            material="groundplane" contype="1" conaffinity="3" group="0"/>
+
+        <!-- LONGBOW -->
+        <body name="longbow-chassis" pos="0 0 1" quat="1 0 0 0" childclass="longbow">
+            <!-- <freejoint name="vehicle_freejoint"/> -->
+
+            <!-- <inertial pos="1 0 0" mass="100" diaginertia="100 100 100"/> -->
+            <geom class="body" type="mesh" mesh="chassis_mesh" 
+                pos="0 0 0" quat="1 0 0 0" material="vehicle_material"/>
+
+            <!-- RIGHT SHOULDER -->
+            <body name="longbow_right_shoulder" pos="-0.393700 -0.034925 0.092075" quat="1 0 0 0">
+                <joint axis="0 0 1" name="revolute_right_shoulder" type="hinge" 
+                    ref="0.0"
+                    damping="1" frictionloss="0.1"/>
+                <!-- <inertial pos="0 0 0" mass="1.0" diaginertia="1 1 1"/> -->
+                <geom class="body" type="mesh" mesh="right_shoulder_mesh" 
+                    material="roller_material"/>
+                <!-- <site name="slider_attach" pos="0.005312 -0.085725 -0.115087"/>  Connection point on arm -->
+
+                <!-- Slider body - can move along the slot axis -->
+                <body name="longbow_right_shoulder_slot_slider" pos="0.005312 -0.085725 -0.115087">
+                    <joint name="longbow_right_shoulder_slot_slide" type="slide" 
+                        axis="0 0 1" range="-0.5 0.5"/>
+                    <site name="longbow_right_shoulder_slot_point" 
+                        pos="0 0 0"/>
+                    <!-- Small visual for the pin in slot -->
+                    <geom class="body" type="sphere" size="0.01" rgba="1 0 0 1"/>
+                </body>
+            </body>
+
+            <!-- RIGHT SHOULDER ACTUATOR -->
+            <body name="longbow_right_shoulder_actuator_base" 
+                pos="0.152400 -0.046355 0.038418" quat="0 -0.7071067 0 0.7071067">
+                <!-- Actuator housing -->
+                <geom class="body" type="mesh" mesh="forearm_slider_frame" 
+                    pos="0 0 0" quat="0.7071067 0 0.7071067 0" material="wheel_material"/>            
+                <joint axis="1 0 0" name="longbow_right_shoulder_base_hinge" type="hinge" 
+                    ref="0.0"
+                    damping="0" frictionloss="0"/>
+                <!-- <inertial pos="0 0 0" mass="1.0" diaginertia="1 1 1"/> -->
+                <!-- Sliding shaft -->
+                <body name="longbow_right_shoulder_actuator_shaft" pos="0 0 0">
+                    <joint name="longbow_right_shoulder_linear_joint" 
+                        type="slide" axis="0 0 1" 
+                        range="0.0 0.19" 
+                        damping="100" armature="0"/>
+                    <geom class="body" name="longbow_right_shoulder_actuator_shaft_geom" 
+                        type="cylinder" size="0.015 0.117186" 
+                        pos="0 0 0.317784" rgba="0.7 0.7 0.7 1"/>
+                    <!-- End effector / attachment point -->
+                    <site name="longbow_right_shoulder_actuator_shaft_tip" pos="0 0 0.454098"/>  <!-- Connection point on shaft -->
+                    <geom class="body" type="sphere" size="0.01" pos="0 0 0.454098" rgba="1 1 0 1"/>
+                </body>
+            </body>
+
+
+            <!-- LEFT SHOULDER -->
+            <body name="longbow_left_shoulder" pos="0.393700 -0.034925 0.092075" quat="1 0 0 0">
+                <joint axis="0 0 1" name="revolute_left_shoulder" type="hinge" 
+                    ref="0.0"
+                    damping="1" frictionloss="0.1"/>
+                <!-- <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/> -->
+                <geom class="body" type="mesh" mesh="left_shoulder_mesh" 
+                    material="roller_material"/>
+
+                <!-- Slider body - can move along the slot axis -->
+                <body name="longbow_left_shoulder_slot_slider" pos="-0.005312 -0.085725 -0.158267">
+                    <joint name="longbow_left_shoulder_slot_slide" type="slide" 
+                        axis="0 0 1" range="-0.5 0.5"/>
+                    <site name="longbow_left_shoulder_slot_point" 
+                        pos="0 0 0"/>
+                    <!-- Small visual for the pin in slot -->
+                    <geom class="body" type="sphere" size="0.01" rgba="1 0 0 1"/>
+                </body>
+            </body>
+
+            <!-- LEFT SHOULDER ACTUATOR -->
+            <body name="longbow_left_shoulder_actuator_base" 
+                pos="-0.152400 -0.046355 -0.038418" quat="0 0.7071067 0 0.7071067">
+                <!-- Actuator housing -->
+                <geom class="body" type="mesh" mesh="forearm_slider_frame" 
+                    pos="0 0 0" quat="0.7071067 0 0.7071067 0" material="wheel_material"/>            
+                <joint axis="1 0 0" name="longbow_left_shoulder_base_hinge" type="hinge" 
+                    ref="0.0"
+                    damping="0" frictionloss="0"/>
+                <!-- <inertial pos="0 0 0" mass="1.0" diaginertia="1 1 1"/> -->
+                <!-- Sliding shaft -->
+                <body name="longbow_left_shoulder_actuator_shaft" pos="0 0 0">
+                    <joint name="longbow_left_shoulder_linear_joint" 
+                        type="slide" axis="0 0 1" 
+                        range="0.0 0.19" 
+                        damping="100" armature="0"/>
+                    <geom class="body" name="longbow_left_shoulder_actuator_shaft_geom" 
+                        type="cylinder" size="0.015 0.117186" 
+                        pos="0 0 0.317784" rgba="0.7 0.7 0.7 1"/>
+                    <!-- End effector / attachment point -->
+                    <site name="longbow_left_shoulder_actuator_shaft_tip" pos="0 0 0.454098"/>  <!-- Connection point on shaft -->
+                    <geom class="body" type="sphere" size="0.01" pos="0 0 0.454098" rgba="1 1 0 1"/>
+                </body>
+            </body>
+
+
+        </body>
+
+
+    </worldbody>
+
+    <!-- Connect shaft tip to the slider (which can move along slot axis) -->
+    <equality>
+
+        <connect name="longbow_right_shoulder_actuator_connection" 
+            site1="longbow_right_shoulder_actuator_shaft_tip" 
+            site2="longbow_right_shoulder_slot_point"/>
+
+        <connect name="longbow_left_shoulder_actuator_connection" 
+            site1="longbow_left_shoulder_actuator_shaft_tip" 
+            site2="longbow_left_shoulder_slot_point"/>
+
+    </equality>
+
+    <actuator>
+
+        <!-- Position control - set target extension length -->
+        <position name="shoulder_rt" 
+            joint="longbow_right_shoulder_linear_joint" 
+            kp="5000" ctrlrange="0 0.19"/>
+
+        <position name="shoulder_lf" 
+            joint="longbow_left_shoulder_linear_joint" 
+            kp="5000" ctrlrange="0 0.19"/>
+        
+        <!-- OR use velocity control -->
+        <!-- <velocity name="linear_vel" joint="longbow_right_shoulder_linear_joint" 
+                    kv="1000" ctrlrange="-0.017 0.017"/> -->
+    </actuator>
+
+    <sensor>
+        <jointpos name="extension_sensor" joint="longbow_right_shoulder_linear_joint"/>
+        <actuatorfrc name="force_sensor" actuator="shoulder_rt"/>
+    </sensor>
+
+</mujoco>

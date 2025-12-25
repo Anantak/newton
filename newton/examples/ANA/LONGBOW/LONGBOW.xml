@@ -62,6 +62,7 @@
         <mesh name="forearm_mesh" file="FOREARM.stl"/>
         <mesh name="wrist_assy_mesh" file="WRIST_ASSY.stl"/>
         <mesh name="wrist_slider_mesh" file="WRIST-SLIDER.stl"/>
+        <mesh name="tool-shunk-electromagnet" file="SCHUNK-EGM-B-Q-50.stl"/>
 
         <material name="vehicle_material" rgba="0.4 0.3 0.0 1"/>
         <material name="mast_material" rgba="0.1 0.1 0.1 1"/>
@@ -74,6 +75,9 @@
         <material name="shaft_material" rgba="0.2 0.2 0.2 1"/>
         <material name="wheel_material" rgba="0.2 0.2 0.2 1"/>
         <material name="wheel_collision_material" rgba="0.8 0.0 0.0 1"/>
+        <material name="tool_material" rgba="0.7 0.7 0.7 1"/>
+        <material name="right_tool_material" rgba="0.9 0.7 0.7 1"/>
+        <material name="left_tool_material" rgba="0.7 0.9 0.7 1"/>
 
         <!-- Ground Materials  -->
         <texture type="2d" name="groundplane" 
@@ -163,6 +167,24 @@
                                 pos="0.0 0.102956 0.02794"/>
                             <geom class="body" type="sphere" size="0.01" rgba="1 0 0 1"
                                 pos="0.0 0.102956 0.02794"/>
+
+
+                            <!-- RIGHT TOOL - ELECTRO-MAGNET -->
+                            <body name="longbow-right-magnet" 
+                                pos="0 0.043180 -0.04554" quat="0 -1 0 0">
+                                
+                                <joint axis="0 0 1" name="revolute_right_tool_joint" type="hinge" 
+                                    range="-3.14159 3.14159"
+                                    damping="1" frictionloss="1"/>
+                                <geom class="body" type="mesh" mesh="tool-shunk-electromagnet" 
+                                    pos="0 -0.047500 0.028500" quat="1 0 0 0" material="right_tool_material"/>
+                                <inertial pos="0 0 0" mass="0.5" diaginertia="0.5 0.5 0.5"/>
+                                <site name="rt.tool.tip" 
+                                    pos="0.0 0.0 0.060950"/>
+                                <geom class="body" type="sphere" size="0.01" rgba="0 1 0 1"
+                                    pos="0.0 0.0 0.060950"/>
+                            </body>
+
                         </body>
 
                         <!-- RIGHT WRIST ACTUATOR -->
@@ -341,6 +363,24 @@
                                 pos="0.0 0.102956 0.02794"/>
                             <geom class="body" type="sphere" size="0.01" rgba="1 0 0 1"
                                 pos="0.0 0.102956 0.02794"/>
+
+
+                            <!-- LEFT TOOL - ELECTRO-MAGNET -->
+                            <body name="longbow-left-magnet" 
+                                pos="0 0.043180 -0.04554" quat="0 -1 0 0">
+                                
+                                <joint axis="0 0 1" name="revolute_left_tool_joint" type="hinge" 
+                                    range="-3.14159 3.14159"
+                                    damping="1" frictionloss="1"/>
+                                <geom class="body" type="mesh" mesh="tool-shunk-electromagnet" 
+                                    pos="0 -0.047500 0.028500" quat="1 0 0 0" material="left_tool_material"/>
+                                <inertial pos="0 0 0" mass="0.5" diaginertia="0.5 0.5 0.5"/>
+                                <site name="lf.tool.tip" 
+                                    pos="0.0 0.0 0.060950"/>
+                                <geom class="body" type="sphere" size="0.01" rgba="0 1 0 1"
+                                    pos="0.0 0.0 0.060950"/>
+                            </body>
+
                         </body>
 
                         <!-- LEFT WRIST ACTUATOR -->
@@ -505,46 +545,55 @@
     <actuator>
 
         <!-- Position control - set target extension length -->
-        <position name="shoulder_rt" 
+        <position name="rt_shoulder" 
             joint="longbow_right_shoulder_linear_joint" 
-            kp="5000" kv="5000" ctrlrange="0 0.19"/>
+            kp="9000" kv="5000" ctrlrange="0 0.19"/>
             
-        <position name="shoulder_lf" 
-            joint="longbow_left_shoulder_linear_joint" 
-            kp="5000" kv="5000" ctrlrange="0 0.19"/>
-
-        <position name="upper_arm_rt" 
+        <position name="rt_upperarm" 
             joint="longbow_right_upper_arm_linear_joint" 
             kp="50000" kv="20000" ctrlrange="0.0 0.27"/>
 
-        <position name="upper_arm_lf" 
-            joint="longbow_left_upper_arm_linear_joint" 
-            kp="50000" kv="20000" ctrlrange="0.0 0.27"/>
-
-        <position name="forearm_rt" 
+        <position name="rt_forearm" 
             joint="longbow_right_forearm_linear_joint" 
             kp="50000" kv="20000" ctrlrange="0 0.19"/>
 
-        <position name="forearm_lf" 
-            joint="longbow_left_forearm_linear_joint" 
-            kp="50000" kv="20000" ctrlrange="0 0.19"/>
-
-        <position name="wrist_rt" 
+        <position name="rt_wrist" 
             joint="longbow_right_wrist_linear_joint" 
             kp="5000" kv="2000" ctrlrange="0 0.16"/>
 
-        <position name="wrist_lf" 
+        <position name="rt_tool" 
+            joint="revolute_right_tool_joint" 
+            kp="500" kv="50" ctrlrange="-3.14159 3.14159"/>
+
+
+        <position name="lf_shoulder" 
+            joint="longbow_left_shoulder_linear_joint" 
+            kp="9000" kv="5000" ctrlrange="0 0.19"/>
+
+        <position name="lf_upperarm" 
+            joint="longbow_left_upper_arm_linear_joint" 
+            kp="50000" kv="20000" ctrlrange="0.0 0.27"/>
+
+        <position name="lf_forearm" 
+            joint="longbow_left_forearm_linear_joint" 
+            kp="50000" kv="20000" ctrlrange="0 0.19"/>
+
+        <position name="lf_wrist" 
             joint="longbow_left_wrist_linear_joint" 
             kp="5000" kv="2000" ctrlrange="0 0.16"/>
 
-        <!-- OR use velocity control -->
+        <position name="lf_tool" 
+            joint="revolute_left_tool_joint" 
+            kp="500" kv="50" ctrlrange="-3.14159 3.14159"/>
+
+        <!-- velocity control -->
         <!-- <velocity name="linear_vel" joint="longbow_right_shoulder_linear_joint" 
                     kv="1000" ctrlrange="-0.017 0.017"/> -->
     </actuator>
 
     <sensor>
         <jointpos name="extension_sensor" joint="longbow_right_shoulder_linear_joint"/>
-        <actuatorfrc name="force_sensor" actuator="shoulder_rt"/>
+        <actuatorfrc name="force_sensor" actuator="rt_shoulder"/>
     </sensor>
 
 </mujoco>

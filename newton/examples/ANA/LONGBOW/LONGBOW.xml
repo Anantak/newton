@@ -64,17 +64,9 @@
         <mesh name="wrist_slider_mesh" file="WRIST-SLIDER.stl"/>
         <mesh name="tool-shunk-electromagnet" file="SCHUNK-EGM-B-Q-50.stl"/>
 
-        <material name="vehicle_material" rgba="0.4 0.3 0.0 1"/>
-        <material name="mast_material" rgba="0.1 0.1 0.1 1"/>
-        <material name="lift_material" rgba="0.15 0.15 0.15 1"/>
-        <material name="fork_lift_material" rgba="0.2 0.2 0.2 1"/>
-        <material name="forks_tilter_material" rgba="0.3 0.3 0.3 1"/>
-        <material name="fork_tines_material" rgba="0.1 0.1 0.1 1"/>
-        <material name="tiller_material" rgba="0.1 0.1 0.1 1"/>
-        <material name="roller_material" rgba="0.6 0.6 0.4 1"/>
-        <material name="shaft_material" rgba="0.2 0.2 0.2 1"/>
-        <material name="wheel_material" rgba="0.2 0.2 0.2 1"/>
-        <material name="wheel_collision_material" rgba="0.8 0.0 0.0 1"/>
+        <material name="arm_material" rgba="0.4 0.3 0.0 1"/>
+        <material name="joint_material" rgba="0.6 0.6 0.4 1"/>
+        <material name="housing_material" rgba="0.2 0.2 0.2 1"/>
         <material name="tool_material" rgba="0.7 0.7 0.7 1"/>
         <material name="right_tool_material" rgba="0.9 0.7 0.7 1"/>
         <material name="left_tool_material" rgba="0.7 0.9 0.7 1"/>
@@ -99,7 +91,7 @@
 
             <!-- <inertial pos="1 0 0" mass="100" diaginertia="100 100 100"/> -->
             <geom class="body" type="mesh" mesh="chassis_mesh" 
-                pos="0 0 0" quat="1 0 0 0" material="vehicle_material"/>
+                pos="0 0 0" quat="1 0 0 0" material="arm_material"/>
 
             <!-- RIGHT SHOULDER -->
             <body name="longbow_right_shoulder" 
@@ -109,7 +101,7 @@
                     damping="1" frictionloss="0.1"/>
                 <!-- <inertial pos="0 0 0" mass="1.0" diaginertia="1 1 1"/> -->
                 <geom class="body" type="mesh" mesh="right_shoulder_mesh" 
-                    material="roller_material"/>
+                    material="joint_material"/>
                 <!-- Slider body - can move along the slot axis -->
                 <body name="longbow_right_shoulder_slot_slider" 
                     pos="0.005312 -0.085725 -0.115087">
@@ -129,7 +121,7 @@
                         ref="0.0"
                         damping="1" frictionloss="0.1"/>
                     <geom class="body" type="mesh" mesh="upper_arm_mesh" 
-                        pos="0 0 0" quat="1 0 0 0" material="vehicle_material"/>
+                        pos="0 0 0" quat="1 0 0 0" material="arm_material"/>
                     <inertial pos="0 -0.6 0" mass="1.0" diaginertia="1 1 1"/>
                     <site name="longbow_right_upper_arm_actuator_attachment_point" 
                         pos="-0.101600 -0.647700 0"/>
@@ -145,7 +137,7 @@
                             ref="0.0"
                             damping="1" frictionloss="0.1"/>
                         <geom class="body" type="mesh" mesh="forearm_mesh" 
-                            pos="0.003900 0.111692 0" quat="1 0 0 0" material="vehicle_material"/>
+                            pos="0.003900 0.111692 0" quat="1 0 0 0" material="arm_material"/>
                         <inertial pos="0 -0.6 0" mass="1.0" diaginertia="1 1 1"/>
                         <site name="longbow_right_forearm_actuator_attachment_point" 
                             pos="0.003900 0.111692 0"/>
@@ -161,7 +153,7 @@
                                 ref="0.0"
                                 damping="0" frictionloss="0.05"/>
                             <geom class="body" type="mesh" mesh="wrist_assy_mesh" 
-                                pos="0 0.043180 -0.040640" quat="1 0 0 0" material="roller_material"/>
+                                pos="0 0.043180 -0.040640" quat="1 0 0 0" material="joint_material"/>
                             <inertial pos="0 0.043180 -0.040640" mass="1" diaginertia="1 1 1"/>
                             <site name="longbow_right_wrist_actuator_attachment_point" 
                                 pos="0.0 0.102956 0.02794"/>
@@ -192,7 +184,7 @@
                             pos="-0.015469 -0.47144 0" quat="0 0 0 1">
                             <!-- Actuator housing -->
                             <geom class="body" type="mesh" mesh="wrist_slider_mesh" 
-                                pos="0 0 0" quat="1 0 0 0" material="wheel_material"/>
+                                pos="0 0 0" quat="1 0 0 0" material="housing_material"/>
                             <joint axis="0 0 1" name="longbow_right_wrist_base_hinge" type="hinge" 
                                 ref="0.0"
                                 damping="0" frictionloss="0"/>
@@ -220,7 +212,7 @@
                         pos="0.133350 -0.540307 0" quat="0 0.7071067 0.7071067 0">
                         <!-- Actuator housing -->
                         <geom class="body" type="mesh" mesh="forearm_slider_frame" 
-                            pos="0 0 0" quat="1 0 0 0" material="wheel_material"/>
+                            pos="0 0 0" quat="1 0 0 0" material="housing_material"/>
                         <joint axis="0 0 1" name="rt.fa.base" type="hinge" 
                             ref="-0.6"
                             damping="0" frictionloss="0"/>
@@ -249,7 +241,7 @@
                     pos="-0.083581 -0.117475 -0.170371" quat="0.5 -0.5 -0.5 0.5">
                     <!-- Actuator housing -->
                     <geom class="body" type="mesh" mesh="upper_arm_slider_mesh" 
-                        pos="0 0 0" quat="1 0 0 0" material="wheel_material"/>
+                        pos="0 0 0" quat="1 0 0 0" material="housing_material"/>
                     <joint axis="0 0 1" name="longbow_right_upper_arm_base_hinge" type="hinge" 
                         ref="0.0"
                         damping="0" frictionloss="0"/>
@@ -277,7 +269,7 @@
                 pos="0.152400 -0.046355 0.038418" quat="0 -0.7071067 0 0.7071067">
                 <!-- Actuator housing -->
                 <geom class="body" type="mesh" mesh="forearm_slider_frame" 
-                    pos="0 0 0" quat="0.7071067 0 0.7071067 0" material="wheel_material"/>            
+                    pos="0 0 0" quat="0.7071067 0 0.7071067 0" material="housing_material"/>            
                 <joint axis="1 0 0" name="longbow_right_shoulder_base_hinge" type="hinge" 
                     ref="0.0"
                     damping="0" frictionloss="0"/>
@@ -305,7 +297,7 @@
                     damping="1" frictionloss="0.1"/>
                 <!-- <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/> -->
                 <geom class="body" type="mesh" mesh="left_shoulder_mesh" 
-                    material="roller_material"/>
+                    material="joint_material"/>
 
                 <!-- Slider body - can move along the slot axis -->
                 <body name="longbow_left_shoulder_slot_slider" pos="-0.005312 -0.085725 -0.158267">
@@ -326,7 +318,7 @@
                         ref="0.0"
                         damping="1" frictionloss="0.1"/>
                     <geom class="body" type="mesh" mesh="upper_arm_mesh" 
-                        pos="0 0 0" quat="1 0 0 0" material="vehicle_material"/>
+                        pos="0 0 0" quat="1 0 0 0" material="arm_material"/>
                     <inertial pos="0 -0.6 0" mass="1.0" diaginertia="1 1 1"/>
                     <site name="longbow_left_upper_arm_actuator_attachment_point" 
                         pos="-0.101600 -0.647700 0"/>
@@ -341,7 +333,7 @@
                             ref="0.0"
                             damping="1" frictionloss="0.1"/>
                         <geom class="body" type="mesh" mesh="forearm_mesh" 
-                            pos="0.003900 0.111692 0" quat="1 0 0 0" material="vehicle_material"/>
+                            pos="0.003900 0.111692 0" quat="1 0 0 0" material="arm_material"/>
                         <inertial pos="0 -0.6 0" mass="1.0" diaginertia="1 1 1"/>
                         <site name="longbow_left_forearm_actuator_attachment_point" 
                             pos="0.003900 0.111692 0"/>
@@ -357,7 +349,7 @@
                                 ref="0.0"
                                 damping="0" frictionloss="0.05"/>
                             <geom class="body" type="mesh" mesh="wrist_assy_mesh" 
-                                pos="0 0.043180 -0.040640" quat="1 0 0 0" material="roller_material"/>
+                                pos="0 0.043180 -0.040640" quat="1 0 0 0" material="joint_material"/>
                             <inertial pos="0 0.043180 -0.040640" mass="1" diaginertia="1 1 1"/>
                             <site name="longbow_left_wrist_actuator_attachment_point" 
                                 pos="0.0 0.102956 0.02794"/>
@@ -388,7 +380,7 @@
                             pos="-0.015469 -0.47144 0" quat="0 0 0 1">
                             <!-- Actuator housing -->
                             <geom class="body" type="mesh" mesh="wrist_slider_mesh" 
-                                pos="0 0 0" quat="1 0 0 0" material="wheel_material"/>
+                                pos="0 0 0" quat="1 0 0 0" material="housing_material"/>
                             <joint axis="0 0 1" name="longbow_left_wrist_base_hinge" type="hinge" 
                                 ref="0.0"
                                 damping="0" frictionloss="0"/>
@@ -415,7 +407,7 @@
                         pos="0.133350 -0.540307 0" quat="0 0.7071067 0.7071067 0">
                         <!-- Actuator housing -->
                         <geom class="body" type="mesh" mesh="forearm_slider_frame" 
-                            pos="0 0 0" quat="1 0 0 0" material="wheel_material"/>
+                            pos="0 0 0" quat="1 0 0 0" material="housing_material"/>
                         <joint axis="0 0 1" name="lf.fa.base" type="hinge" 
                             ref="-0.6"
                             damping="0" frictionloss="0"/>
@@ -443,7 +435,7 @@
                     pos="0.083581 -0.117475 -0.170371" quat="0.5 -0.5 -0.5 0.5">
                     <!-- Actuator housing -->
                     <geom class="body" type="mesh" mesh="upper_arm_slider_mesh" 
-                        pos="0 0 0" quat="1 0 0 0" material="wheel_material"/>
+                        pos="0 0 0" quat="1 0 0 0" material="housing_material"/>
                     <joint axis="0 0 1" name="longbow_left_upper_arm_base_hinge" type="hinge" 
                         ref="0.0"
                         damping="0" frictionloss="0"/>
@@ -471,7 +463,7 @@
                 pos="-0.152400 -0.046355 -0.038418" quat="0 0.7071067 0 0.7071067">
                 <!-- Actuator housing -->
                 <geom class="body" type="mesh" mesh="forearm_slider_frame" 
-                    pos="0 0 0" quat="0.7071067 0 0.7071067 0" material="wheel_material"/>            
+                    pos="0 0 0" quat="0.7071067 0 0.7071067 0" material="housing_material"/>            
                 <joint axis="1 0 0" name="longbow_left_shoulder_base_hinge" type="hinge" 
                     ref="0.0"
                     damping="0" frictionloss="0"/>

@@ -59,19 +59,10 @@
         <mesh name="forearm_slider_frame" file="FOREARM-SLIDER.stl"/>
         <mesh name="upper_arm_mesh" file="UPPERARM.stl"/>
         <mesh name="upper_arm_slider_mesh" file="UPPER-ARM-SLIDER.stl"/>
+        <mesh name="forearm_mesh" file="FOREARM.stl"/>
+        <mesh name="wrist_assy_mesh" file="WRIST_ASSY.stl"/>
+        <mesh name="wrist_slider_mesh" file="WRIST-SLIDER.stl"/>
 
-        <!-- <mesh name="roller_mesh" file="BOA3000-ROLLER.stl"/>
-        <mesh name="shaft_mesh" file="BOA3000-STEERING-SHAFT.stl"/>
-        <mesh name="wheel_mesh" file="BOA3000-TRACTION-WHEEL.stl"/>
-        <mesh name="tiller_base_mesh" file="BOA3000-TILLER-BASE.stl"/>
-        <mesh name="tiller_handle_mesh" file="BOA3000-TILLER-HANDLE.stl"/>
-        <mesh name="mast_mesh" file="BOA3000-MAST.stl"/>
-        <mesh name="lift_mesh" file="BOA3000-LIFT.stl"/>
-        <mesh name="fork_lift_mesh" file="BOA3000-FORK-LIFT.stl"/>
-        <mesh name="forks_tilter_mesh" file="BOA3000-FORKS-TILTER.stl"/>
-        <mesh name="left_fork_tine_mesh" file="BOA3000-LEFT-FORK-TINE.stl"/>
-        <mesh name="right_fork_tine_mesh" file="BOA3000-RIGHT-FORK-TINE.stl"/>
- -->
         <material name="vehicle_material" rgba="0.4 0.3 0.0 1"/>
         <material name="mast_material" rgba="0.1 0.1 0.1 1"/>
         <material name="lift_material" rgba="0.15 0.15 0.15 1"/>
@@ -140,6 +131,94 @@
                         pos="-0.101600 -0.647700 0"/>
                     <geom class="body" type="sphere" size="0.01" rgba="1 0 0 1"
                         pos="-0.101600 -0.647700 0"/>
+
+
+                    <!-- RIGHT FOREARM -->
+                    <body name="longbow-right-forearm" 
+                        pos="-0.121920 -1.008658 0" quat="0.7071067 0 0 -0.7071067">
+
+                        <joint axis="0 0 1" name="revolute_right_forearm" type="hinge" 
+                            ref="0.0"
+                            damping="1" frictionloss="0.1"/>
+                        <geom class="body" type="mesh" mesh="forearm_mesh" 
+                            pos="0.003900 0.111692 0" quat="1 0 0 0" material="vehicle_material"/>
+                        <inertial pos="0 -0.6 0" mass="1.0" diaginertia="1 1 1"/>
+                        <site name="longbow_right_forearm_actuator_attachment_point" 
+                            pos="0.003900 0.111692 0"/>
+                        <geom class="body" type="sphere" size="0.01" rgba="1 0 0 1"
+                            pos="0.003900 0.111692 0"/>
+
+
+                        <!-- RIGHT WRIST -->
+                        <body name="longbow-right-wrist" 
+                            pos="0 -0.9144 0" quat="0.5 -0.5 0.5 0.5">
+
+                            <joint axis="1 0 0" name="revolute_right_wrist" type="hinge" 
+                                ref="0.0"
+                                damping="0" frictionloss="0.05"/>
+                            <geom class="body" type="mesh" mesh="wrist_assy_mesh" 
+                                pos="0 0.043180 -0.040640" quat="1 0 0 0" material="roller_material"/>
+                            <inertial pos="0 0.043180 -0.040640" mass="1" diaginertia="1 1 1"/>
+                            <site name="longbow_right_wrist_actuator_attachment_point" 
+                                pos="0.0 0.102956 0.02794"/>
+                            <geom class="body" type="sphere" size="0.01" rgba="1 0 0 1"
+                                pos="0.0 0.102956 0.02794"/>
+                        </body>
+
+                        <!-- RIGHT WRIST ACTUATOR -->
+                        <body name="longbow_right_wrist_actuator_base" 
+                            pos="-0.015469 -0.47144 0" quat="0 0 0 1">
+                            <!-- Actuator housing -->
+                            <geom class="body" type="mesh" mesh="wrist_slider_mesh" 
+                                pos="0 0 0" quat="1 0 0 0" material="wheel_material"/>
+                            <joint axis="0 0 1" name="longbow_right_wrist_base_hinge" type="hinge" 
+                                ref="0.0"
+                                damping="0" frictionloss="0"/>
+                            <inertial pos="0 0.249220 0" mass="1.0" diaginertia="1 1 1"/>
+                            <!-- Sliding shaft -->
+                            <body name="longbow_right_writs_actuator_shaft" pos="0 0 0">
+                                <joint name="longbow_right_wrist_linear_joint" 
+                                    type="slide" axis="0 1 0" 
+                                    range="0.0 0.16"
+                                    damping="100" armature="0"/>
+                                <geom class="body" name="longbow_right_writs_actuator_shaft_geom" 
+                                    type="cylinder" size="0.0075 0.1397"
+                                    pos="0 0.249220 0" quat="0.7071067 0.7071067 0 0" rgba="0.7 0.7 0.7 1"/>
+                                <inertial pos="0 0.1397 0" mass="0.1" diaginertia="0.1 0.1 0.1"/>
+                                <site name="longbow_right_wrist_actuator_shaft_tip" pos="0 0.380170 0"/>
+                                <geom class="body" type="sphere" size="0.01" pos="0 0.380170 0" rgba="1 1 0 1"/>
+                            </body>
+                        </body>
+
+
+                    </body>
+
+                    <!-- RIGHT FOREARM ACTUATOR -->
+                    <body name="longbow_right_forearm_actuator_base" 
+                        pos="0.133350 -0.540307 0" quat="0 0.7071067 0.7071067 0">
+                        <!-- Actuator housing -->
+                        <geom class="body" type="mesh" mesh="forearm_slider_frame" 
+                            pos="0 0 0" quat="1 0 0 0" material="wheel_material"/>
+                        <joint axis="0 0 1" name="rt.fa.base" type="hinge" 
+                            ref="-0.6"
+                            damping="0" frictionloss="0"/>
+                        <!-- <inertial pos="0 0 0" mass="1.0" diaginertia="1 1 1"/> -->
+                        <!-- Sliding shaft -->
+                        <body name="longbow_right_forearm_actuator_shaft" pos="0 0 0">
+                            <joint name="longbow_right_forearm_linear_joint" 
+                                type="slide" axis="-1 0 0" 
+                                range="0.0 0.19"
+                                damping="100" armature="0"/>
+                            <geom class="body" name="longbow_right_forearm_actuator_shaft_geom" 
+                                type="cylinder" size="0.015 0.117186"
+                                pos="-0.317784 0 0" quat="0.7071067 0 0.7071067 0" rgba="0.7 0.7 0.7 1"/>
+                            <!-- <inertial pos="0 0 0" mass="1.0" diaginertia="1 1 1"/> -->
+                            <!-- End effector / attachment point -->
+                            <site name="longbow_right_forearm_actuator_shaft_tip" pos="-0.454098 0 0"/>
+                            <geom class="body" type="sphere" size="0.01" pos="-0.454098 0 0" rgba="1 1 0 1"/>
+                        </body>
+                    </body>
+
                 </body>
 
 
@@ -231,6 +310,92 @@
                         pos="-0.101600 -0.647700 0"/>
                     <geom class="body" type="sphere" size="0.01" rgba="1 0 0 1"
                         pos="-0.101600 -0.647700 0"/>
+
+                    <!-- LEFT FOREARM -->
+                    <body name="longbow-left-forearm" 
+                        pos="-0.121920 -1.008658 0" quat="0.7071067 0 0 -0.7071067">
+
+                        <joint axis="0 0 1" name="revolute_left_forearm" type="hinge" 
+                            ref="0.0"
+                            damping="1" frictionloss="0.1"/>
+                        <geom class="body" type="mesh" mesh="forearm_mesh" 
+                            pos="0.003900 0.111692 0" quat="1 0 0 0" material="vehicle_material"/>
+                        <inertial pos="0 -0.6 0" mass="1.0" diaginertia="1 1 1"/>
+                        <site name="longbow_left_forearm_actuator_attachment_point" 
+                            pos="0.003900 0.111692 0"/>
+                        <geom class="body" type="sphere" size="0.01" rgba="1 0 0 1"
+                            pos="0.003900 0.111692 0"/>
+
+
+                        <!-- LEFT WRIST -->
+                        <body name="longbow-left-wrist" 
+                            pos="0 -0.9144 0" quat="0.5 -0.5 0.5 0.5">
+
+                            <joint axis="1 0 0" name="revolute_left_wrist" type="hinge" 
+                                ref="0.0"
+                                damping="0" frictionloss="0.05"/>
+                            <geom class="body" type="mesh" mesh="wrist_assy_mesh" 
+                                pos="0 0.043180 -0.040640" quat="1 0 0 0" material="roller_material"/>
+                            <inertial pos="0 0.043180 -0.040640" mass="1" diaginertia="1 1 1"/>
+                            <site name="longbow_left_wrist_actuator_attachment_point" 
+                                pos="0.0 0.102956 0.02794"/>
+                            <geom class="body" type="sphere" size="0.01" rgba="1 0 0 1"
+                                pos="0.0 0.102956 0.02794"/>
+                        </body>
+
+                        <!-- LEFT WRIST ACTUATOR -->
+                        <body name="longbow_left_wrist_actuator_base" 
+                            pos="-0.015469 -0.47144 0" quat="0 0 0 1">
+                            <!-- Actuator housing -->
+                            <geom class="body" type="mesh" mesh="wrist_slider_mesh" 
+                                pos="0 0 0" quat="1 0 0 0" material="wheel_material"/>
+                            <joint axis="0 0 1" name="longbow_left_wrist_base_hinge" type="hinge" 
+                                ref="0.0"
+                                damping="0" frictionloss="0"/>
+                            <inertial pos="0 0.249220 0" mass="1.0" diaginertia="1 1 1"/>
+                            <!-- Sliding shaft -->
+                            <body name="longbow_left_writs_actuator_shaft" pos="0 0 0">
+                                <joint name="longbow_left_wrist_linear_joint" 
+                                    type="slide" axis="0 1 0" 
+                                    range="0.0 0.16"
+                                    damping="100" armature="0"/>
+                                <geom class="body" name="longbow_left_writs_actuator_shaft_geom" 
+                                    type="cylinder" size="0.0075 0.1397"
+                                    pos="0 0.249220 0" quat="0.7071067 0.7071067 0 0" rgba="0.7 0.7 0.7 1"/>
+                                <inertial pos="0 0.1397 0" mass="0.1" diaginertia="0.1 0.1 0.1"/>
+                                <site name="longbow_left_wrist_actuator_shaft_tip" pos="0 0.380170 0"/>
+                                <geom class="body" type="sphere" size="0.01" pos="0 0.380170 0" rgba="1 1 0 1"/>
+                            </body>
+                        </body>
+
+                    </body>
+
+                    <!-- LEFT FOREARM ACTUATOR -->
+                    <body name="longbow_left_forearm_actuator_base" 
+                        pos="0.133350 -0.540307 0" quat="0 0.7071067 0.7071067 0">
+                        <!-- Actuator housing -->
+                        <geom class="body" type="mesh" mesh="forearm_slider_frame" 
+                            pos="0 0 0" quat="1 0 0 0" material="wheel_material"/>
+                        <joint axis="0 0 1" name="lf.fa.base" type="hinge" 
+                            ref="-0.6"
+                            damping="0" frictionloss="0"/>
+                        <!-- <inertial pos="0 0 0" mass="1.0" diaginertia="1 1 1"/> -->
+                        <!-- Sliding shaft -->
+                        <body name="longbow_left_forearm_actuator_shaft" pos="0 0 0">
+                            <joint name="longbow_left_forearm_linear_joint" 
+                                type="slide" axis="-1 0 0" 
+                                range="0.0 0.19"
+                                damping="100" armature="0"/>
+                            <geom class="body" name="longbow_left_forearm_actuator_shaft_geom" 
+                                type="cylinder" size="0.015 0.117186"
+                                pos="-0.317784 0 0" quat="0.7071067 0 0.7071067 0" rgba="0.7 0.7 0.7 1"/>
+                            <!-- <inertial pos="0 0 0" mass="1.0" diaginertia="1 1 1"/> -->
+                            <!-- End effector / attachment point -->
+                            <site name="longbow_left_forearm_actuator_shaft_tip" pos="-0.454098 0 0"/>
+                            <geom class="body" type="sphere" size="0.01" pos="-0.454098 0 0" rgba="1 1 0 1"/>
+                        </body>
+                    </body>
+
                 </body>
 
                 <!-- LEFT UPPER ARM ACTUATOR -->
@@ -315,6 +480,26 @@
             site2="longbow_left_upper_arm_actuator_attachment_point"
             solref="0.001 1" solimp="0.99 0.999 0.001"/>
 
+        <connect name="longbow_right_forearm_actuator_connection" 
+            site1="longbow_right_forearm_actuator_shaft_tip" 
+            site2="longbow_right_forearm_actuator_attachment_point"
+            solref="0.001 1" solimp="0.99 0.999 0.001"/>
+
+        <connect name="longbow_left_forearm_actuator_connection" 
+            site1="longbow_left_forearm_actuator_shaft_tip" 
+            site2="longbow_left_forearm_actuator_attachment_point"
+            solref="0.001 1" solimp="0.99 0.999 0.001"/>
+
+        <connect name="longbow_right_writs_actuator_connection" 
+            site1="longbow_right_wrist_actuator_shaft_tip" 
+            site2="longbow_right_wrist_actuator_attachment_point"
+            solref="0.001 1" solimp="0.99 0.999 0.001"/>
+
+        <connect name="longbow_left_writs_actuator_connection" 
+            site1="longbow_left_wrist_actuator_shaft_tip" 
+            site2="longbow_left_wrist_actuator_attachment_point"
+            solref="0.001 1" solimp="0.99 0.999 0.001"/>
+
     </equality>
 
     <actuator>
@@ -322,19 +507,35 @@
         <!-- Position control - set target extension length -->
         <position name="shoulder_rt" 
             joint="longbow_right_shoulder_linear_joint" 
-            kp="5000" kv="2000" ctrlrange="0 0.19"/>
-
+            kp="5000" kv="5000" ctrlrange="0 0.19"/>
+            
         <position name="shoulder_lf" 
             joint="longbow_left_shoulder_linear_joint" 
-            kp="5000" kv="2000" ctrlrange="0 0.19"/>
+            kp="5000" kv="5000" ctrlrange="0 0.19"/>
 
         <position name="upper_arm_rt" 
             joint="longbow_right_upper_arm_linear_joint" 
-            kp="5000" kv="2000" ctrlrange="0.0 0.27"/>
+            kp="50000" kv="20000" ctrlrange="0.0 0.27"/>
 
         <position name="upper_arm_lf" 
             joint="longbow_left_upper_arm_linear_joint" 
-            kp="5000" kv="2000" ctrlrange="0.0 0.27"/>
+            kp="50000" kv="20000" ctrlrange="0.0 0.27"/>
+
+        <position name="forearm_rt" 
+            joint="longbow_right_forearm_linear_joint" 
+            kp="50000" kv="20000" ctrlrange="0 0.19"/>
+
+        <position name="forearm_lf" 
+            joint="longbow_left_forearm_linear_joint" 
+            kp="50000" kv="20000" ctrlrange="0 0.19"/>
+
+        <position name="wrist_rt" 
+            joint="longbow_right_wrist_linear_joint" 
+            kp="5000" kv="2000" ctrlrange="0 0.16"/>
+
+        <position name="wrist_lf" 
+            joint="longbow_left_wrist_linear_joint" 
+            kp="5000" kv="2000" ctrlrange="0 0.16"/>
 
         <!-- OR use velocity control -->
         <!-- <velocity name="linear_vel" joint="longbow_right_shoulder_linear_joint" 

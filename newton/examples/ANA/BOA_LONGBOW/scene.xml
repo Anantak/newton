@@ -1,5 +1,7 @@
 <mujoco model="scene">
 
+    <compiler angle="radian" meshdir="assets" autolimits="true"/>
+
     <visual>
         <headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0 0 0" />
         <rgba haze="0.15 0.25 0.35 1" />
@@ -16,6 +18,7 @@
             markrgb="0.8 0.8 0.8" width="300" height="300" />
         <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5"
             reflectance="0.001"/>
+        <material name="line_mat" rgba="1 0.5 0 1"/>
     </asset>
 
 
@@ -26,17 +29,47 @@
         <!-- Ground -->
         <geom name="ground" size="0 0 0.1" pos="0 0 0" type="plane" 
             material="groundplane" contype="1" conaffinity="3" group="0"/>
+
+        <body name="booth_outline" pos="0 0 0.005">
+            <!-- Booth outline
+                20ft x 30ft rectangle outline
+                20ft = 6.096m, 30ft = 9.144m
+                Half-widths: 3.048m and 4.572m -->        
+            <!-- Front edge (along x) -->
+            <geom type="capsule" size="0.01" fromto="-3.048 -4.572 0   3.048 -4.572 0" material="line_mat"/>
+            <!-- Back edge (along x) -->
+            <geom type="capsule" size="0.01" fromto="-3.048  4.572 0   3.048  4.572 0" material="line_mat"/>
+            <!-- Left edge (along y) -->
+            <geom type="capsule" size="0.01" fromto="-3.048 -4.572 0  -3.048  4.572 0" material="line_mat"/>
+            <!-- Right edge (along y) -->
+            <geom type="capsule" size="0.01" fromto=" 3.048 -4.572 0   3.048  4.572 0" material="line_mat"/>
+        </body>
     </worldbody>
 
 
     <worldbody>
-
-        <body name="boa_implement_vehicle" pos="0 0 0.10" quat="1 0 0 0">
-            <freejoint name="vehicle_freejoint"/>
+        <!-- FORKLIFT -->
+        <body name="boa_longbow_vehicle" pos="0 -4 0.10" quat="1 0 0 0">
+            <freejoint name="forklift_freejoint"/>
             <frame name="forklift_frame" pos="0 0 0" quat="1 0 0 0"/>
         </body>
-
     </worldbody>
 
+
+    <worldbody>
+        <!-- TUG -->
+        <body name="mx340_vehicle" pos="-2.2 2 0.10" axisangle="0 0 1 0">
+            <freejoint name="tugger_freejoint"/>
+            <frame name="tugger_frame" pos="0 0 0" quat="1 0 0 0"/>
+        </body>
+    </worldbody>
+
+    <worldbody>
+        <!-- CART -->
+        <body name="quad_steer_cart_vehicle" pos="-2.2 -0.215800 0.10" axisangle="0 0 1 1.5708">
+            <freejoint name="cart_freejoint"/>
+            <frame name="quad_steer_cart_frame" pos="0 0 0" quat="1 0 0 0"/>
+        </body>
+    </worldbody>
 
 </mujoco>

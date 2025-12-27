@@ -1,0 +1,229 @@
+<?xml version="1.0" ?>
+
+<mujoco model="quad_steer_cart">
+    <compiler angle="radian" meshdir="assets" autolimits="true"/>
+
+    <option noslip_iterations="10" noslip_tolerance="1e-6"/>
+
+    <option>
+        <flag gravity="enable"/>
+    </option>
+
+    <!-- Enhanced no-slip solver -->
+    <option timestep="0.005"
+            iterations="20"
+            tolerance="1e-12"
+            solver="Newton"
+            jacobian="dense"
+            noslip_iterations="10"
+            noslip_tolerance="1e-6"/>
+
+    <default>
+        <default class="quad_steer_cart">
+            <joint frictionloss="0.1" armature="0.005"/>
+            <position kp="50" dampratio="1"/>
+
+            <default class="body">
+                <geom type="mesh" contype="1" conaffinity="1" group="1"/>
+            </default>
+
+            <default class="shaft">
+                <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+            </default>
+
+            <default class="tires-visual">
+                <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+            </default>
+            <default class="tires-collision">
+                <geom type="mesh" contype="2" conaffinity="2" group="2"/>
+            </default>
+
+        </default>
+    </default>
+
+
+    <asset>
+        <!-- Vehicle Materials  -->
+        <mesh name="cart_body_mesh" file="Frame.stl"/>
+        <mesh name="front_axle_mesh" file="Front-Axle.stl"/>
+        <mesh name="rear_axle_mesh" file="Rear-Axle.stl"/>
+        <mesh name="wheel_mesh" file="Wheel.stl"/>
+        <mesh name="hook_mesh" file="HOOK.stl"/>
+        <mesh name="crossbar_mesh" file="CrossBar.stl"/>
+
+        <material name="vehicle_material" rgba="0.4 0.0 0.0 1"/>
+        <material name="cart_material" rgba="0.0 0.3 0.0 1"/>
+        <material name="shaft_material" rgba="0.6 0.6 0.6 1"/>
+        <material name="wheel_material" rgba="0.2 0.2 0.2 1"/>
+        <material name="wheel_collision_material" rgba="0.8 0.8 0.0 1"/>
+
+        <!-- Ground Materials  -->
+        <texture type="2d" name="groundplane" 
+            builtin="checker" mark="edge" rgb1="0.2 0.2 0.2" rgb2="0.4 0.4 0.4" 
+            markrgb="0.8 0.8 0.8" width="300" height="300" />
+        <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5"
+            reflectance="0.001"/>
+    </asset>
+
+
+    <worldbody>
+
+        <!-- Ground -->
+        <geom name="ground" size="0 0 0.05" pos="0 0 -0.3" type="plane" material="groundplane" contype="1" conaffinity="3" group="0"/>
+
+        <!-- Quad-Steer-Cart Vehicle -->
+        <body name="quad_steer_cart_vehicle" pos="0 0 1" quat="1 0 0 0" childclass="quad_steer_cart">
+            <freejoint name="vehicle_freejoint"/>
+
+            <!-- Quad-Steer-Cart Body -->
+            <body name="quad_steer_cart_body" pos="0 0 0" quat="1 0 0 0" childclass="quad_steer_cart">
+                <inertial pos="0 0 0" mass="10" diaginertia="10 10 10"/>
+                <geom class="body"  type="mesh" mesh="cart_body_mesh" material="cart_material"/>
+
+                <!-- Front Axle-->
+                <body name="quad_steer_cart_front_axle" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0">
+                    <!-- Joint from mt340_body to mt340_front_axle -->
+                    <joint axis="0 0 1" name="Revolute-Front-Axle" type="hinge" 
+                        ref="0.0"
+                        range="-0.5235 0.5235"
+                        stiffness="0.10" damping="0.10" frictionloss="0.10"
+                        armature="0.0"
+                        />
+                    <inertial pos="0 0 0" mass="5.0" diaginertia="5 5 5"/>
+                    <geom class="shaft"  type="mesh" mesh="front_axle_mesh" material="shaft_material"/>
+
+                    <!-- Front right wheel -->
+                    <body name="quad_steer_cart_wheel_front_right" pos="0.040 -0.600 -0.036" quat="0.7071067 0.7071067 0.0 0.0">
+                        <joint axis="0 0 1" name="Revolute-Front-Right" type="hinge" 
+                            ref="0.0"
+                            damping="0.1" frictionloss="0.1"/>
+                        <inertial pos="0 0 0" mass="5.0" diaginertia="5 5 5"/>
+                        <geom class="tires-visual"  type="mesh" mesh="wheel_mesh" material="wheel_material"/>
+                        <geom class="tires-collision" type="cylinder" pos="0 0 -0.075400" size="0.254 0.0364" material="wheel_collision_material" name="wheel_fr_collision"/>
+                    </body>
+
+                    <!-- Front left wheel -->
+                    <body name="quad_steer_cart_wheel_front_left" pos="0.040  0.600 -0.036" quat="0.7071067 -0.7071067 0.0 0.0">
+                        <joint axis="0 0 1" name="Revolute-Front-Left" type="hinge" 
+                            ref="0.0"
+                            damping="0.1" frictionloss="0.1"/>
+                        <inertial pos="0 0 0" mass="5.0" diaginertia="5 5 5"/>
+                        <geom class="tires-visual"  type="mesh" mesh="wheel_mesh" material="wheel_material"/>
+                        <geom class="tires-collision" type="cylinder" pos="0 0 -0.075400" size="0.254 0.0364" material="wheel_collision_material" name="wheel_fl_collision"/>
+                    </body>
+
+                    <!-- Cross bar -->
+                    <body name="quad_steer_cart_crossbar" pos="-0.024000 -0.410000 -0.028000" axisangle="0 0 1 -0.507">
+                        <joint axis="0 0 1" name="Revolute-Crossbar" type="hinge" 
+                            ref="0.0"
+                            damping="0.1" frictionloss="0.1"/>
+                        <inertial pos="0 0 0" mass="1.0" diaginertia="1 1 1"/>
+                        <geom class="shaft"  type="mesh" pos="-0.833772 0 0.004000" mesh="crossbar_mesh" material="shaft_material"/>
+
+                        <site name="cross_bar_attachment_point" 
+                            pos="-1.667544 0 -0.004"/>
+                        <geom class="body" type="sphere" size="0.01" rgba="1 0 0 1"
+                            pos="-1.667544 0 -0.004"/>
+
+                    </body>
+
+                    <!-- Hook-->
+                    <body name="quad_steer_cart_hook" pos="0.530  0.0  0.0" quat="1 0 0 0">
+                        <joint axis="0 1 0" name="Revolute-Hook" type="hinge" 
+                            ref="0.0"
+                            damping="0.1" frictionloss="0.1"/>
+                        <inertial pos="0 0 0" mass="1.0" diaginertia="1 1 1"/>
+                        <geom class="body"  type="mesh" mesh="hook_mesh" 
+                            pos="0 0 0" quat="0.5 0.5 -0.5 0.5" material="shaft_material"/>
+
+                        <site name="hitch_point" rgba="0 1 1 1"
+                            pos="0.8 0 0" />
+
+                    </body>
+
+                </body>
+
+                <!-- Rear Axle-->
+                <body name="quad_steer_cart_rear_axle" pos="-1.50 0.0 0.0" quat="0.0 0.0 0.0 1.0">
+                    <!-- Joint from mt340_body to mt340_front_axle -->
+                    <joint axis="0 0 1" name="Revolute-Rear-Axle" type="hinge" 
+                        ref="0.0"
+                        range="-0.5235 0.5235"
+                        stiffness="0.10" damping="0.10" frictionloss="0.10"
+                        armature="0.0"
+                        />
+                    <inertial pos="0 0 0" mass="5.0" diaginertia="5 5 5"/>
+                    <geom class="shaft"  type="mesh" mesh="rear_axle_mesh" material="shaft_material"/>
+
+                    <!-- Rear right wheel -->
+                    <body name="quad_steer_cart_wheel_rear_right" pos="0.040  0.600 -0.036" quat="0.7071067 -0.7071067 0.0 0.0">
+                        <joint axis="0 0 1" name="Revolute-Rear-Right" type="hinge" 
+                            ref="0.0"
+                            damping="0.1" frictionloss="0.1"/>
+                        <inertial pos="0 0 0" mass="5.0" diaginertia="5 5 5"/>
+                        <geom class="tires-visual"  type="mesh" mesh="wheel_mesh" material="wheel_material"/>
+                        <geom class="tires-collision" type="cylinder" pos="0 0 -0.075400" size="0.254 0.0364" material="wheel_collision_material" name="wheel_rr_collision"/>
+                    </body>
+
+                    <!-- Rear left wheel -->
+                    <body name="quad_steer_cart_wheel_rear_left" pos="0.040 -0.600 -0.036" quat="0.7071067  0.7071067 0.0 0.0">
+                        <joint axis="0 0 1" name="Revolute-Rear-Left" type="hinge" 
+                            ref="0.0"
+                            damping="0.1" frictionloss="0.1"/>
+                        <inertial pos="0 0 0" mass="5.0" diaginertia="5 5 5"/>
+                        <geom class="tires-visual"  type="mesh" mesh="wheel_mesh" material="wheel_material"/>
+                        <geom class="tires-collision" type="cylinder" pos="0 0 -0.075400" size="0.254 0.0364" material="wheel_collision_material" name="wheel_rl_collision"/>
+                    </body>
+
+                    <!-- rear axle to cross bar attachment point -->
+                    <site name="rear_axle_attachment_point" 
+                        pos="-0.024000 -0.410000 -0.028000"/>
+                    <geom class="body" type="sphere" size="0.01" rgba="1 1 0 1"
+                        pos="-0.024000 -0.410000 -0.028000"/>
+
+                </body>
+
+            </body>
+        </body>
+
+    </worldbody>
+
+    <contact>
+        <!-- Wheel-ground contacts with damping -->
+        <pair geom1="wheel_fl_collision" geom2="ground" 
+            friction="0.8 0.4 0.015"
+            solref="0.1 0.5"
+            solimp="0.8 0.9 0.01"
+            margin="0.001"/>
+        <pair geom1="wheel_fr_collision" geom2="ground" 
+            friction="0.8 0.4 0.015"
+            solref="0.1 0.5"
+            solimp="0.8 0.9 0.01"
+            margin="0.001"/>
+        <pair geom1="wheel_rl_collision" geom2="ground" 
+            friction="0.8 0.4 0.015"
+            solref="0.1 0.5"
+            solimp="0.8 0.9 0.01"
+            margin="0.001"/>
+        <pair geom1="wheel_rr_collision" geom2="ground" 
+            friction="0.8 0.4 0.015"
+            solref="0.1 0.5"
+            solimp="0.8 0.9 0.01"
+            margin="0.001"/>
+    </contact>
+
+
+    <equality>
+
+        <connect name="cross_bar_to_rear_axle_connection" 
+            site1="cross_bar_attachment_point" 
+            site2="rear_axle_attachment_point"
+            solref="0.001 1" 
+            solimp="0.5 0.5 0.5"/>
+
+    </equality>
+    
+    <actuator>
+    </actuator>
+
+</mujoco>

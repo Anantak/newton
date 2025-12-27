@@ -91,113 +91,126 @@
         <!-- Ground -->
         <geom name="ground" size="0 0 0.1" pos="0 0 0" type="plane" material="groundplane" contype="1" conaffinity="3" group="0"/>
 
-        <!-- BOA3000 Body -->
-        <body name="boa3000_body" pos="0 0 0.10" quat="1 0 0 0" childclass="autoforklift">
+        <!-- BOA3000 Vehicle -->
+        <body name="boa3000_vehicle" pos="0 0 0.10" quat="1 0 0 0">
             <freejoint name="vehicle_freejoint"/>
-            <inertial pos="-1 0 0" mass="1500" diaginertia="1000 1500 800"/>
-            <geom class="body" type="mesh" mesh="body_mesh" pos="-1.009471 0 -0.077436" quat="0.5 0.5 -0.5 -0.5" material="vehicle_material"/>
 
-            <site name="rear_tire_center" pos="0 0 0" size="0.02" rgba="1 1 0 1"/>
+            <!-- BOA3000 Body -->
+            <body name="boa3000_body" pos="0 0 0" quat="1 0 0 0" childclass="autoforklift">
+                <inertial pos="-1 0 0" mass="1500" diaginertia="1000 1500 800"/>
+                <geom class="body" type="mesh" mesh="body_mesh" pos="-1.009471 0 -0.077436" quat="0.5 0.5 -0.5 -0.5" material="vehicle_material"/>
 
-            <!-- BOA3000 LEFT ROLLER -->
-            <body name="boa3000_left_roller" pos="0 -0.439000 0" quat="0.7071067 0.7071067 0 0">
-                <joint axis="0 0 1" name="Revolute-Left-Roller" type="hinge" 
-                    ref="0.0"
-                    damping="100" frictionloss="0.5"/>
-                <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/>
-                <geom class="tires-visual" type="mesh" mesh="roller_mesh" material="roller_material"/>
-                <geom class="tires-collision" type="cylinder" pos="0 0 0" size="0.0749 0.0450" material="wheel_collision_material" name="wheel_left_collision"/>
-            </body>
+                <site name="rear_tire_center" pos="0 0 0" size="0.02" rgba="1 1 0 1"/>
 
-            <!-- BOA3000 RIGHT ROLLER -->
-            <body name="boa3000_right_roller" pos="0  0.439000 0" quat="0.7071067 0.7071067 0 0">
-                <joint axis="0 0 1" name="Revolute-Right-Roller" type="hinge" 
-                    ref="0.0"
-                    damping="100" frictionloss="0.5"/>
-                <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/>
-                <geom class="tires-visual" type="mesh" mesh="roller_mesh" material="roller_material"/>
-                <geom class="tires-collision" type="cylinder" pos="0 0 0" size="0.0749 0.0450" material="wheel_collision_material" name="wheel_right_collision"/>
-            </body>
-
-
-            <!-- BOA3000 Steering shaft -->
-            <body name="boa3000_steering_shaft" pos="-1.009472 0.005091 0.044064" quat="0.5 0.5 -0.5 -0.5">
-                <joint pos="0 0 0.170000" axis="0 1 0" name="Revolute-Front-Axle" type="hinge" 
-                    ref="0.0"
-                    range="-0.6 0.6"
-                    stiffness="1000" damping="100" frictionloss="0.10"
-                    armature="1.0"/>
-                <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/>
-                <geom class="shaft"  type="mesh" mesh="shaft_mesh" material="shaft_material"/>
-
-                <!-- BOA3000 TRACTION WHEEL -->
-                <body name="boa3000_traction_wheel" pos="0 0 0" quat="1 0 0 0">
-                    <joint pos="-0.022367 0.002500 0.169965" axis="-1 0 0" name="Revolute-Traction-Wheel" type="hinge" 
+                <!-- BOA3000 LEFT ROLLER -->
+                <body name="boa3000_left_roller" pos="0 -0.439000 0" quat="0.7071067 0.7071067 0 0">
+                    <joint axis="0 0 1" name="Revolute-Left-Roller" type="hinge" 
                         ref="0.0"
                         damping="100" frictionloss="0.5"/>
                     <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/>
-                    <geom class="tires-visual" type="mesh" mesh="wheel_mesh" material="roller_material"/>
-                    <geom class="tires-collision" type="cylinder" pos="0.011528 0.002500 0.170018" quat="0.7071067 0 0.7071067 0" size="0.123 0.0270345" material="wheel_collision_material" name="wheel_traction_collision"/>
+                    <geom class="tires-visual" type="mesh" mesh="roller_mesh" material="roller_material"/>
+                    <geom class="tires-collision" type="cylinder" pos="0 0 0" size="0.0749 0.0450" material="wheel_collision_material" name="wheel_left_collision"/>
                 </body>
 
-                <!-- BOA3000 TILLER BASE -->
-                <body name="boa3000_tiller_base" pos="0 0 0" quat="1 0 0 0">
-                    <inertial pos="0 0 0" mass="10.0" diaginertia="1 1 1"/>
-                    <geom class="shaft" type="mesh" mesh="tiller_base_mesh" material="tiller_material"/>
-                </body>
-
-                <!-- BOA3000 TILLER HANDLE -->
-                <body name="boa3000_tiller_handle" pos="0 0 0" quat="1 0 0 0">
-                    <inertial pos="0 0 0" mass="10.0" diaginertia="1 1 1"/>
-                    <geom class="shaft" type="mesh" mesh="tiller_handle_mesh" material="tiller_material"/>
-                </body>
-
-            </body>
-
-            <!-- BOA3000 MAST -->
-            <body name="boa3000_mast" pos="-1.009471 0 -0.077436" quat="0.5 0.5 -0.5 -0.5">
-                <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/>
-                <geom class="shaft" type="mesh" mesh="mast_mesh" material="mast_material"/>
-                <site name="lift_start_site" pos="0.007000 0.136659 -0.829827" size="0.01" rgba="1 0 0 1"/>
-
-                <!-- BOA3000 MAST LIFT -->
-                <body name="boa3000_lift" pos="0.007000 0.136659 -0.829827" quat="0.5 0.5 0.5 -0.5">
-                    <joint pos="0 0 0" axis="0 0 -1" name="Prismatic-Mast-Lift-Joint" type="slide" 
+                <!-- BOA3000 RIGHT ROLLER -->
+                <body name="boa3000_right_roller" pos="0  0.439000 0" quat="0.7071067 0.7071067 0 0">
+                    <joint axis="0 0 1" name="Revolute-Right-Roller" type="hinge" 
                         ref="0.0"
-                        range="-0.0 1.65"
                         damping="100" frictionloss="0.5"/>
-                    <inertial pos="0 0 0" mass="10.0" diaginertia="1 1 1"/>
-                    <geom class="visual-only" type="mesh" mesh="lift_mesh" material="lift_material"/>
+                    <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/>
+                    <geom class="tires-visual" type="mesh" mesh="roller_mesh" material="roller_material"/>
+                    <geom class="tires-collision" type="cylinder" pos="0 0 0" size="0.0749 0.0450" material="wheel_collision_material" name="wheel_right_collision"/>
+                </body>
 
-                    <!-- BOA3000 FORK LIFT -->
-                    <body name="boa3000_fork_lift" pos="0 0 0" quat="1 0 0 0">
-                        <joint pos="0 0 0" axis="0 0 -1" name="Prismatic-Fork-Lift-Joint" type="slide" 
+
+                <!-- BOA3000 Steering shaft -->
+                <body name="boa3000_steering_shaft" pos="-1.009472 0.005091 0.044064" quat="0.5 0.5 -0.5 -0.5">
+                    <joint pos="0 0 0.170000" axis="0 1 0" name="Revolute-Front-Axle" type="hinge" 
+                        ref="0.0"
+                        range="-0.6 0.6"
+                        stiffness="1000" damping="100" frictionloss="0.10"
+                        armature="1.0"/>
+                    <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/>
+                    <geom class="shaft"  type="mesh" mesh="shaft_mesh" material="shaft_material"/>
+
+                    <!-- BOA3000 TRACTION WHEEL -->
+                    <body name="boa3000_traction_wheel" pos="0 0 0" quat="1 0 0 0">
+                        <joint pos="-0.022367 0.002500 0.169965" axis="-1 0 0" name="Revolute-Traction-Wheel" type="hinge" 
+                            ref="0.0"
+                            damping="100" frictionloss="0.5"/>
+                        <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/>
+                        <geom class="tires-visual" type="mesh" mesh="wheel_mesh" material="roller_material"/>
+                        <geom class="tires-collision" type="cylinder" pos="0.011528 0.002500 0.170018" quat="0.7071067 0 0.7071067 0" size="0.123 0.0270345" material="wheel_collision_material" name="wheel_traction_collision"/>
+                    </body>
+
+                    <!-- BOA3000 TILLER BASE -->
+                    <body name="boa3000_tiller_base" pos="0 0 0" quat="1 0 0 0">
+                        <inertial pos="0 0 0" mass="10.0" diaginertia="1 1 1"/>
+                        <geom class="shaft" type="mesh" mesh="tiller_base_mesh" material="tiller_material"/>
+                    </body>
+
+                    <!-- BOA3000 TILLER HANDLE -->
+                    <body name="boa3000_tiller_handle" pos="0 0 0" quat="1 0 0 0">
+                        <inertial pos="0 0 0" mass="10.0" diaginertia="1 1 1"/>
+                        <geom class="shaft" type="mesh" mesh="tiller_handle_mesh" material="tiller_material"/>
+                    </body>
+
+                </body>
+
+                <!-- BOA3000 MAST -->
+                <body name="boa3000_mast" pos="-1.009471 0 -0.077436" quat="0.5 0.5 -0.5 -0.5">
+                    <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/>
+                    <geom class="shaft" type="mesh" mesh="mast_mesh" material="mast_material"/>
+                    <site name="lift_start_site" pos="0.007000 0.136659 -0.829827" size="0.01" rgba="1 0 0 1"/>
+
+                    <!-- BOA3000 MAST LIFT -->
+                    <body name="boa3000_lift" pos="0.007000 0.136659 -0.829827" quat="0.5 0.5 0.5 -0.5">
+                        <joint pos="0 0 0" axis="0 0 -1" name="Prismatic-Mast-Lift-Joint" type="slide" 
                             ref="0.0"
                             range="-0.0 1.65"
                             damping="100" frictionloss="0.5"/>
                         <inertial pos="0 0 0" mass="10.0" diaginertia="1 1 1"/>
-                        <geom class="visual-only" type="mesh" mesh="fork_lift_mesh" material="fork_lift_material"/>
-                        <site name="lift_end_site" pos="0 0 0" size="0.01" rgba="0 1 0 1"/>
+                        <geom class="visual-only" type="mesh" mesh="lift_mesh" material="lift_material"/>
 
-                        <!-- BOA3000 FORKS TILTER -->
-                        <body name="boa3000_forks_tilter" pos="0 0 0" quat="1 0 0 0">
-                            <joint pos="0.162947 0.0 -0.385079" axis="0 1 0" name="Revolute-Fork-Tilter-Joint" type="hinge" 
+                        <!-- BOA3000 FORK LIFT -->
+                        <body name="boa3000_fork_lift" pos="0 0 0" quat="1 0 0 0">
+                            <joint pos="0 0 0" axis="0 0 -1" name="Prismatic-Fork-Lift-Joint" type="slide" 
                                 ref="0.0"
-                                range="-0.05 0.05"
+                                range="-0.0 1.65"
                                 damping="100" frictionloss="0.5"/>
                             <inertial pos="0 0 0" mass="10.0" diaginertia="1 1 1"/>
-                            <geom class="hits-ground-not-body" type="mesh" mesh="forks_tilter_mesh" pos="1.233025 -0.002500 -0.381436" quat="0 0 0 1" material="forks_tilter_material"/>
+                            <geom class="visual-only" type="mesh" mesh="fork_lift_mesh" material="fork_lift_material"/>
+                            <site name="lift_end_site" pos="0 0 0" size="0.01" rgba="0 1 0 1"/>
 
-                            <!-- BOA3000 LEFT TINE -->
-                            <body name="boa3000_left_fork_tine" pos="0 0 0" quat="1 0 0 0">
+                            <!-- BOA3000 FORKS TILTER -->
+                            <body name="boa3000_forks_tilter" pos="0 0 0" quat="1 0 0 0">
+                                <joint pos="0.162947 0.0 -0.385079" axis="0 1 0" name="Revolute-Fork-Tilter-Joint" type="hinge" 
+                                    ref="0.0"
+                                    range="-0.05 0.05"
+                                    damping="100" frictionloss="0.5"/>
                                 <inertial pos="0 0 0" mass="10.0" diaginertia="1 1 1"/>
-                                <geom class="hits-ground-not-body" type="mesh" mesh="left_fork_tine_mesh" pos="0.177 0.002500 0.041" quat="0 -0.7071067 0 0.7071067" material="fork_tines_material"/>
-                            </body>
+                                <geom class="hits-ground-not-body" type="mesh" mesh="forks_tilter_mesh" pos="1.233025 -0.002500 -0.381436" quat="0 0 0 1" material="forks_tilter_material"/>
 
-                            <!-- BOA3000 RIGHT TINE -->
-                            <body name="boa3000_right_fork_tine" pos="0 0 0" quat="1 0 0 0">
-                                <inertial pos="0 0 0" mass="10.0" diaginertia="1 1 1"/>
-                                <geom class="hits-ground-not-body" type="mesh" mesh="right_fork_tine_mesh" pos="0.177 0.002500 0.041" quat="0 -0.7071067 0 0.7071067" material="fork_tines_material"/>
+                                <!-- BOA3000 IMPLEMENT FRAME - to be used for attaching other implements -->
+                                <frame name="implement_frame" pos="0 0 0" quat="1 0 0 0">
+                                    <!-- BOA3000 LEFT TINE -->
+                                    <body name="boa3000_left_fork_tine" pos="0 0 0" quat="1 0 0 0">
+                                        <inertial pos="0 0 0" mass="10.0" diaginertia="1 1 1"/>
+                                        <geom class="hits-ground-not-body" type="mesh" mesh="left_fork_tine_mesh" pos="0.177 0.002500 0.041" quat="0 -0.7071067 0 0.7071067" material="fork_tines_material"/>
+                                    </body>
+
+                                    <!-- BOA3000 RIGHT TINE -->
+                                    <body name="boa3000_right_fork_tine" pos="0 0 0" quat="1 0 0 0">
+                                        <inertial pos="0 0 0" mass="10.0" diaginertia="1 1 1"/>
+                                        <geom class="hits-ground-not-body" type="mesh" mesh="right_fork_tine_mesh" pos="0.177 0.002500 0.041" quat="0 -0.7071067 0 0.7071067" material="fork_tines_material"/>
+                                    </body>
+
+                                    <frame name="longbow_frame" pos="0.237251 -0.005 -0.91414" quat="0 0.7071067 -0.7071067 0">
+                                        <geom class="body" type="sphere" size="0.01" rgba="0 1 0 1"/>                        
+                                    </frame>
+
+                                </frame>
+
                             </body>
 
                         </body>
@@ -207,7 +220,6 @@
                 </body>
 
             </body>
-
 
         </body>
 

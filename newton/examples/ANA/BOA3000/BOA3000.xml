@@ -97,7 +97,7 @@
 
             <!-- BOA3000 Body -->
             <body name="boa3000_body" pos="0 0 0" quat="1 0 0 0" childclass="autoforklift">
-                <inertial pos="-1 0 0" mass="1500" diaginertia="1000 1500 800"/>
+                <inertial pos="-0.65 0 0.5" mass="2000" diaginertia="400 500 500"/>
                 <geom class="body" type="mesh" mesh="body_mesh" pos="-1.009471 0 -0.077436" quat="0.5 0.5 -0.5 -0.5" material="vehicle_material"/>
 
                 <site name="rear_tire_center" pos="0 0 0" size="0.02" rgba="1 1 0 1"/>
@@ -107,9 +107,9 @@
                     <joint axis="0 0 1" name="Revolute-Left-Roller" type="hinge" 
                         ref="0.0"
                         damping="100" frictionloss="0.5"/>
-                    <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/>
+                    <inertial pos="0 0 0" mass="5.0" diaginertia="0.5 0.5 1"/>
                     <geom class="tires-visual" type="mesh" mesh="roller_mesh" material="roller_material"/>
-                    <geom class="tires-collision" type="cylinder" pos="0 0 0" size="0.0749 0.0450" material="wheel_collision_material" name="wheel_left_collision"/>
+                    <geom class="tires-collision" type="cylinder" pos="0 0 0" size="0.0749 0.03" material="wheel_collision_material" name="wheel_left_collision"/>
                 </body>
 
                 <!-- BOA3000 RIGHT ROLLER -->
@@ -117,9 +117,9 @@
                     <joint axis="0 0 1" name="Revolute-Right-Roller" type="hinge" 
                         ref="0.0"
                         damping="100" frictionloss="0.5"/>
-                    <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/>
+                    <inertial pos="0 0 0" mass="5.0" diaginertia="0.5 0.5 1"/>
                     <geom class="tires-visual" type="mesh" mesh="roller_mesh" material="roller_material"/>
-                    <geom class="tires-collision" type="cylinder" pos="0 0 0" size="0.0749 0.0450" material="wheel_collision_material" name="wheel_right_collision"/>
+                    <geom class="tires-collision" type="cylinder" pos="0 0 0" size="0.0749 0.03" material="wheel_collision_material" name="wheel_right_collision"/>
                 </body>
 
 
@@ -138,9 +138,9 @@
                         <joint pos="-0.022367 0.002500 0.169965" axis="-1 0 0" name="Revolute-Traction-Wheel" type="hinge" 
                             ref="0.0"
                             damping="100" frictionloss="0.5"/>
-                        <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/>
                         <geom class="tires-visual" type="mesh" mesh="wheel_mesh" material="roller_material"/>
-                        <geom class="tires-collision" type="cylinder" pos="0.011528 0.002500 0.170018" quat="0.7071067 0 0.7071067 0" size="0.123 0.0270345" material="wheel_collision_material" name="wheel_traction_collision"/>
+                        <geom class="tires-collision" type="cylinder" pos="0.011528 0.002500 0.170018" quat="0.7071067 0 0.7071067 0" size="0.123 0.03" material="wheel_collision_material" name="wheel_traction_collision"/>
+                        <inertial pos="0.011528 0.002500 0.170018" mass="50.0" diaginertia="5 5 5"/>
                     </body>
 
                     <!-- BOA3000 TILLER BASE -->
@@ -228,20 +228,20 @@
     <contact>
         <!-- Wheel-ground contacts with damping -->
         <pair geom1="wheel_left_collision" geom2="ground" 
-            friction="0.8 0.4 0.015"
+            friction="0.99 0.99 0.99"
             solref="0.1 0.5"
             solimp="0.8 0.9 0.01"
-            margin="0.001"/>
+            margin="0.010"/>
         <pair geom1="wheel_right_collision" geom2="ground" 
-            friction="0.8 0.4 0.015"
+            friction="0.99 0.99 0.99"
             solref="0.1 0.5"
             solimp="0.8 0.9 0.01"
-            margin="0.001"/>
+            margin="0.010"/>
         <pair geom1="wheel_traction_collision" geom2="ground" 
-            friction="0.8 0.4 0.015"
+            friction="0.99 0.99 0.99"
             solref="0.1 0.5"
             solimp="0.8 0.9 0.01"
-            margin="0.001"/>
+            margin="0.010"/>
     </contact>
 
 

@@ -14,7 +14,7 @@
 
         <!-- Ground Materials  -->
         <texture type="2d" name="groundplane" 
-            builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" 
+            builtin="checker" mark="edge" rgb1="0.3 0.3 0.3" rgb2="0.2 0.2 0.2" 
             markrgb="0.8 0.8 0.8" width="300" height="300" />
         <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5"
             reflectance="0.001"/>
@@ -43,13 +43,30 @@
             <geom type="capsule" size="0.01" fromto="-3.048 -4.572 0  -3.048  4.572 0" material="line_mat"/>
             <!-- Right edge (along y) -->
             <geom type="capsule" size="0.01" fromto=" 3.048 -4.572 0   3.048  4.572 0" material="line_mat"/>
+            <!-- axes -->
+            <geom type="capsule" size="0.01" fromto="0 0 -0.01   1 0 -0.01" rgba="1 0 0 1"/>
+            <geom type="capsule" size="0.01" fromto="0 0 -0.01   0 1 -0.01" rgba="0 1 0 1"/>
         </body>
     </worldbody>
 
+    <worldbody>
+        
+        <!-- TUG -->
+        <body name="mx340_vehicle" pos="-1.9 2 0.10" axisangle="0 0 1 0">
+            <freejoint name="tugger_freejoint"/>
+            <frame name="tugger_frame" pos="0 0 0" quat="1 0 0 0"/>
+        </body>
+
+        <!-- CART -->
+        <body name="quad_steer_cart_vehicle" pos="-1.9 -0.215800 0.10" axisangle="0 0 1 1.5708">
+            <freejoint name="cart_freejoint"/>
+            <frame name="quad_steer_cart_frame" pos="0 0 0" quat="1 0 0 0"/>
+        </body>
+    </worldbody>
 
     <worldbody>
         <!-- FORKLIFT -->
-        <body name="boa_longbow_vehicle" pos="0 -4 0.10" quat="1 0 0 0">
+        <body name="boa_longbow_vehicle" pos="0 -3.0 0.10" axisangle="0 0 1 1.5708">
             <freejoint name="forklift_freejoint"/>
             <frame name="forklift_frame" pos="0 0 0" quat="1 0 0 0"/>
         </body>
@@ -57,18 +74,35 @@
 
 
     <worldbody>
-        <!-- TUG -->
-        <body name="mx340_vehicle" pos="-2.2 2 0.10" axisangle="0 0 1 0">
-            <freejoint name="tugger_freejoint"/>
-            <frame name="tugger_frame" pos="0 0 0" quat="1 0 0 0"/>
+        <!-- GMA Pallet 1 -->
+        <body name="gma_pallet_1_free" pos="1.75 -3.75 0.10" axisangle="0 0 1 1.5708">
+            <freejoint name="gma_pallet_1_freejoint"/>
+            <frame name="gma_pallet_1_frame" pos="0 0 0" quat="1 0 0 0"/>
         </body>
     </worldbody>
 
+
     <worldbody>
-        <!-- CART -->
-        <body name="quad_steer_cart_vehicle" pos="-2.2 -0.215800 0.10" axisangle="0 0 1 1.5708">
-            <freejoint name="cart_freejoint"/>
-            <frame name="quad_steer_cart_frame" pos="0 0 0" quat="1 0 0 0"/>
+
+        <!-- Cage Pallet 1 -->
+        <body name="cage_pallet_1_free" pos="0.00 -2.2 0.35" axisangle="0 0 1 1.5708">
+            <freejoint name="cage_pallet_1_freejoint"/>
+            <frame name="cage_pallet_1_frame" pos="0 0 0" quat="1 0 0 0"/>
+        </body>
+
+        <!-- Cage Pallet 2 -->
+        <body name="cage_pallet_2_free" pos="-2.25 -3.65 1.5" axisangle="0 0 1 0">
+            <freejoint name="cage_pallet_2_freejoint"/>
+            <frame name="cage_pallet_2_frame" pos="0 0 0" quat="1 0 0 0"/>
+        </body>
+    </worldbody>
+    
+
+    <worldbody>
+        <!-- LongBow on the ground -->
+        <body name="longbow_on_ground_free" pos="2.75 -3.75 1.25" axisangle="0 0 1 -1.5708">
+            <!-- <freejoint name="longbow_on_ground_freejoint"/> -->
+            <frame name="longbow_on_ground_frame" pos="0 0 0" quat="1 0 0 0"/>
         </body>
     </worldbody>
 

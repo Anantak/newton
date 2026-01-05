@@ -75,7 +75,7 @@
 
             <!-- MT340 Body -->
             <body name="mt340_body" pos="0 0 0" quat="1 0 0 0" childclass="autotug">
-                <inertial pos="0 0 0" mass="1500" diaginertia="1000 1500 800"/>
+                <inertial pos="0 0 0" mass="2000" diaginertia="400 500 500"/>
                 <geom class="body"    type="mesh" mesh="vehicle_mesh" material="vehicle_material"/>
                 <!-- <geom class="visual"    type="mesh" mesh="vehicle_mesh" material="vehicle_material"/> -->
                 <!-- <geom class="collision" type="mesh" mesh="vehicle_mesh" material="vehicle_material"/> -->
@@ -92,10 +92,10 @@
                     <!-- Joint from mt340_body to mt340_front_axle -->
                     <joint axis="0 0 1" name="Revolute-Front-Axle" type="hinge" 
                         ref="0.0"
-                        range="-0.6229704491262441 0.5987600272697865"
-                        stiffness="1000" damping="100" frictionloss="0.10"
+                        range="-0.610865 0.610865"
+                        stiffness="1" damping="1" frictionloss="0.10"
                         armature="1.0"/>
-                    <inertial pos="0 0 0" mass="50.0" diaginertia="5 5 5"/>
+                    <inertial pos="0 0 0" mass="5.0" diaginertia="1 1 1"/>
                     <geom class="shaft"  type="mesh" mesh="front_axle_mesh" material="shaft_material"/>
                     <!-- <geom class="collision" type="mesh" mesh="front_axle_mesh" material="shaft_material"/> -->
 
@@ -103,9 +103,8 @@
                         <!-- Joint from mt340_front_axle to mt340_wheel_front_left -->
                     <body name="mt340_wheel_front_left" pos="0.00  0.186780 -0.261233" quat="0.7071067 -0.7071067 0.0 0.0">
                         <joint axis="0 0 1" name="Revolute-Front-Left" type="hinge" 
-                            ref="0.0"
-                            damping="100" frictionloss="0.5"/>
-                        <inertial pos="0 0 0" mass="10.0" diaginertia="5 5 5"/>
+                            damping="0.1" frictionloss="0.01"/>
+                        <inertial pos="0 0 0" mass="5.0" diaginertia="1 1 1"/>
                         <geom class="tires-visual"  type="mesh" mesh="wheel_fl_mesh" material="wheel_mat"/>
                         <geom class="tires-collision" type="cylinder" pos="0 0 -0.083453" size="0.20 0.05" material="wheel_collision_mat" name="wheel_fl_collision"/>
 
@@ -116,7 +115,7 @@
                     <body name="mt340_wheel_front_right" pos="0.00 -0.186780 -0.261233" quat="0.7071067 0.7071067 0.0 0.0">
                         <joint axis="0 0 1" name="Revolute-Front-Right" type="hinge" 
                             damping="0.1" frictionloss="0.01"/>
-                        <inertial pos="0 0 0" mass="10.0" diaginertia="5 5 5"/>
+                        <inertial pos="0 0 0" mass="5.0" diaginertia="1 1 1"/>
                         <geom class="tires-visual"    type="mesh" mesh="wheel_fr_mesh" material="wheel_mat"/>
                         <geom class="tires-collision" type="cylinder" pos="0 0 -0.083453" size="0.20 0.05" material="wheel_collision_mat" name="wheel_fr_collision"/>
                     </body>
@@ -127,8 +126,8 @@
                 <body name="mt340_wheel_rear_left" pos="-0.409601 -0.517309 -0.0621708" quat="0.0 0.0 0.0 1.0">
                     <!-- Joint from mt340_body to mt340_wheel_rear_left -->
                     <joint axis="1 0 0" name="Revolute-Rear-Left" type="hinge" 
-                        damping="0.1" frictionloss="0.01"/>
-                    <inertial pos="0 0 0" mass="10.0" diaginertia="5 5 5"/>
+                        damping="100" frictionloss="0.5"/>
+                    <inertial pos="0 0 0" mass="5.0" diaginertia="1 1 1"/>
                     <geom class="tires-visual"    type="mesh" mesh="wheel_rl_mesh" material="wheel_mat"/>
                     <geom class="tires-collision" type="cylinder" pos="0 0 0" quat="0.7071067 0.0 0.7071067 0.0" size="0.20 0.05" material="wheel_collision_mat" name="wheel_rl_collision"/>
                 </body>
@@ -137,8 +136,8 @@
                 <body name="mt340_wheel_rear_right" pos="0.423163 -0.517309 -0.0621708" quat="0.0 0.0 0.0 1.0">
                     <!-- Joint from mt340_body to mt340_wheel_rear_right -->
                     <joint axis="1 0 0" name="Revolute-Rear-Right" type="hinge" 
-                        damping="0.1" frictionloss="0.01"/>
-                    <inertial pos="0 0 0" mass="10.0" diaginertia="5 5 5"/>
+                        damping="100" frictionloss="0.5"/>
+                    <inertial pos="0 0 0" mass="5.0" diaginertia="1 1 1"/>
                     <geom class="tires-visual"    type="mesh" mesh="wheel_rr_mesh" material="wheel_mat"/>
                     <geom class="tires-collision" type="cylinder" pos="0 0 0" quat="0.7071067 0.0 0.7071067 0.0" size="0.20 0.05" material="wheel_collision_mat" name="wheel_rr_collision"/>
                 </body>
@@ -164,25 +163,25 @@
     <contact>
         <!-- Wheel-ground contacts with damping -->
         <pair geom1="wheel_fl_collision" geom2="ground" 
-            friction="0.8 0.4 0.015"
+            friction="0.99 0.99 0.99"
             solref="0.1 0.5"
             solimp="0.8 0.9 0.01"
-            margin="0.001"/>
+            margin="0.01"/>
         <pair geom1="wheel_fr_collision" geom2="ground" 
-            friction="0.8 0.4 0.015"
+            friction="0.99 0.99 0.99"
             solref="0.1 0.5"
             solimp="0.8 0.9 0.01"
-            margin="0.001"/>
+            margin="0.01"/>
         <pair geom1="wheel_rl_collision" geom2="ground" 
-            friction="0.8 0.4 0.015"
+            friction="0.99 0.99 0.99"
             solref="0.1 0.5"
             solimp="0.8 0.9 0.01"
-            margin="0.001"/>
+            margin="0.01"/>
         <pair geom1="wheel_rr_collision" geom2="ground" 
-            friction="0.8 0.4 0.015"
+            friction="0.99 0.99 0.99"
             solref="0.1 0.5"
             solimp="0.8 0.9 0.01"
-            margin="0.001"/>
+            margin="0.01"/>
     </contact>
 
 

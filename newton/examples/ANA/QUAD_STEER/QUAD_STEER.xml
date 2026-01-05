@@ -191,22 +191,22 @@
     <contact>
         <!-- Wheel-ground contacts with damping -->
         <pair geom1="wheel_fl_collision" geom2="ground" 
-            friction="0.8 0.4 0.015"
+            friction="0.99 0.99 0.99"
             solref="0.1 0.5"
             solimp="0.8 0.9 0.01"
             margin="0.001"/>
         <pair geom1="wheel_fr_collision" geom2="ground" 
-            friction="0.8 0.4 0.015"
+            friction="0.99 0.99 0.99"
             solref="0.1 0.5"
             solimp="0.8 0.9 0.01"
             margin="0.001"/>
         <pair geom1="wheel_rl_collision" geom2="ground" 
-            friction="0.8 0.4 0.015"
+            friction="0.99 0.99 0.99"
             solref="0.1 0.5"
             solimp="0.8 0.9 0.01"
             margin="0.001"/>
         <pair geom1="wheel_rr_collision" geom2="ground" 
-            friction="0.8 0.4 0.015"
+            friction="0.99 0.99 0.99"
             solref="0.1 0.5"
             solimp="0.8 0.9 0.01"
             margin="0.001"/>

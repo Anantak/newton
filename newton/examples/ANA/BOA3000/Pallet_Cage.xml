@@ -1,0 +1,90 @@
+<mujoco model="cage_pallet">
+    <compiler angle="radian" meshdir="assets" autolimits="true"/>
+
+
+    <default>
+        <default class="cage_pallet">
+            <joint frictionloss="0.1" armature="0.005"/>
+            <position kp="50" dampratio="1"/>
+
+            <default class="cage_body">
+                <geom type="mesh" contype="1" conaffinity="1" group="1"/>
+            </default>
+
+            <!-- Visual geom only -->
+            <default class="visual-only">
+                <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+            </default>
+
+        </default>
+    </default>
+
+    <asset>
+        <mesh name="cart_body_mesh" file="CAGE_PALLET_54.stl"/>
+        <material name="cage_material" rgba="0.2 0.0 0.0 1"/>
+        <material name="cage_collision_material" rgba="0.8 0.0 0.0 1"/>
+    </asset>
+
+    <worldbody>
+
+        <body name="cage_pallet_free" pos="1 0 0.056" quat="1 0 0 0">
+          <freejoint name="cage_pallet_freejoint"/>
+
+          <!-- Cage Pallet body -->
+          <body name="cage_pallet_body" pos="0 0 0" quat="1 0 0 0" childclass="cage_pallet">
+            <geom class="visual-only" type="mesh" mesh="cart_body_mesh" pos="0 0 0" quat="1 0 0 0" material="cage_material"/>
+            <inertial pos="0 0 0" mass="100" diaginertia="100 100 100"/>
+            <geom class="cage_body" type="box" pos="0 0 -0.00215407" size="0.54 0.63 0.025" material="cage_collision_material"/>
+            <geom class="cage_body" type="box" pos="0.525  -0.663038  0.455923"  size="0.020 0.020 0.527" material="cage_collision_material"/>
+            <geom class="cage_body" type="box" pos="0.525   0.663038  0.455923"  size="0.020 0.020 0.527" material="cage_collision_material"/>
+            <geom class="cage_body" type="box" pos="-0.525   0.663038  0.455923"  size="0.020 0.020 0.527" material="cage_collision_material"/>
+            <geom class="cage_body" type="box" pos="-0.525  -0.663038  0.455923"  size="0.020 0.020 0.527" material="cage_collision_material"/>
+            <frame pos="0.525   0.663038  -0.083631" quat="1 0 0 0">
+              <geom class="cage_body" type="box" pos="-0.040531  0.00000025  0"  size="0.003 0.027432 0.015197" axisangle="0 1 0  0.610865238" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0.040531  0.00000025  0"  size="0.003 0.027432 0.015197" axisangle="0 1 0 -0.610865238" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0  -0.04053075  0"  size="0.027432 0.003 0.015197" axisangle="1 0 0 -0.610865238" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0   0.04053075  0"  size="0.027432 0.003 0.015197" axisangle="1 0 0  0.610865238" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0  0.05 -0.026496"  size="0.047 0.003 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0 -0.05 -0.026496"  size="0.047 0.003 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0  0.05 -0.026496"  size="0.047 0.003 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" -0.05 0 -0.026496"  size="0.003 0.047 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos="  0.05 0 -0.026496"  size="0.003 0.047 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+            </frame>
+            <frame pos="0.525  -0.663038  -0.083631" quat="1 0 0 0">
+              <geom class="cage_body" type="box" pos="-0.040531  0.00000025  0"  size="0.003 0.027432 0.015197" axisangle="0 1 0  0.610865238" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0.040531  0.00000025  0"  size="0.003 0.027432 0.015197" axisangle="0 1 0 -0.610865238" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0  -0.04053075  0"  size="0.027432 0.003 0.015197" axisangle="1 0 0 -0.610865238" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0   0.04053075  0"  size="0.027432 0.003 0.015197" axisangle="1 0 0  0.610865238" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0  0.05 -0.026496"  size="0.047 0.003 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0 -0.05 -0.026496"  size="0.047 0.003 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0  0.05 -0.026496"  size="0.047 0.003 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" -0.05 0 -0.026496"  size="0.003 0.047 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos="  0.05 0 -0.026496"  size="0.003 0.047 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+            </frame>
+            <frame pos="-0.525 -0.663038  -0.083631" quat="1 0 0 0">
+              <geom class="cage_body" type="box" pos="-0.040531  0.00000025  0"  size="0.003 0.027432 0.015197" axisangle="0 1 0  0.610865238" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0.040531  0.00000025  0"  size="0.003 0.027432 0.015197" axisangle="0 1 0 -0.610865238" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0  -0.04053075  0"  size="0.027432 0.003 0.015197" axisangle="1 0 0 -0.610865238" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0   0.04053075  0"  size="0.027432 0.003 0.015197" axisangle="1 0 0  0.610865238" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0  0.05 -0.026496"  size="0.047 0.003 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0 -0.05 -0.026496"  size="0.047 0.003 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0  0.05 -0.026496"  size="0.047 0.003 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" -0.05 0 -0.026496"  size="0.003 0.047 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos="  0.05 0 -0.026496"  size="0.003 0.047 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+            </frame>
+            <frame pos="-0.525  0.663038  -0.083631" quat="1 0 0 0">
+              <geom class="cage_body" type="box" pos="-0.040531  0.00000025  0"  size="0.003 0.027432 0.015197" axisangle="0 1 0  0.610865238" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0.040531  0.00000025  0"  size="0.003 0.027432 0.015197" axisangle="0 1 0 -0.610865238" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0  -0.04053075  0"  size="0.027432 0.003 0.015197" axisangle="1 0 0 -0.610865238" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0   0.04053075  0"  size="0.027432 0.003 0.015197" axisangle="1 0 0  0.610865238" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0  0.05 -0.026496"  size="0.047 0.003 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0 -0.05 -0.026496"  size="0.047 0.003 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" 0  0.05 -0.026496"  size="0.047 0.003 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos=" -0.05 0 -0.026496"  size="0.003 0.047 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+              <geom class="cage_body" type="box" pos="  0.05 0 -0.026496"  size="0.003 0.047 0.012027" axisangle="0 1 0 0" material="cage_collision_material"/>
+            </frame>
+          </body>
+
+        </body>
+    </worldbody>
+</mujoco>
